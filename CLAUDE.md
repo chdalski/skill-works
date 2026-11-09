@@ -31,8 +31,9 @@ transitions, gates, and state must fit together.
 | Path | Purpose |
 |---|---|
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin for Claude Code |
-| `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set; a project picks its sets with a `skills` filter in `.pi/settings.json` |
+| `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set |
 | `skill-sets/sw-workshop/` | Workshop set: the tools this repository builds skills and seeds with; holds `sw-skill-audit` so far |
+| `tests/pi.md` | How to load, run, and update a set in pi when testing it there |
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
 | `.claude/rules/knowledge-placement.md` | Where knowledge goes: a skill's references, a rule, or this file |
