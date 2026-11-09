@@ -62,6 +62,10 @@ something else.
 
 ## C5 — State lives in one place and survives
 
+This applies to a procedure that spans more than one session
+or must survive a compaction. A single pass that ends with
+its output may keep its working state in the conversation.
+
 Running state — progress, decisions, open items — lives in
 exactly one place that outlasts the session: a file, Git.
 The skill says how to continue from that state after an
@@ -105,10 +109,11 @@ phase instead of relying on what was read before.
 
 ## C10 — Every reference resolves
 
-Every file, skill, tool, section, and term the procedure
-names exists under that name and is named at the step that
-uses it. A rename that missed one reference leaves a step
-pointing to nothing.
+Every skill, tool, section, term, and file outside the
+skill directory that the procedure names exists under that
+name. A rename that missed one reference leaves a step
+pointing to nothing. Whether the skill's own files exist is
+part of the form check.
 
 ## C11 — Effects are stated
 

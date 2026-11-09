@@ -68,11 +68,13 @@ it.
 ## I5 — One term per thing
 
 The skill uses one term for each action, role, and
-artifact, and the harness's own terms where they exist. An
-agent that reads two terms assumes two mechanisms. In
-Claude Code: *launch* a subagent (the Agent tool without a
-name), *spawn* and *shut down* a teammate, *message* a
-teammate.
+artifact. An agent that reads two terms assumes two
+mechanisms. A skill written for several harnesses keeps one
+neutral term per action, such as *start a subagent*, and
+names the harness's tool where it helps. A skill for a
+single harness uses that harness's terms; in Claude Code:
+*launch* a subagent (the Agent tool without a name), *spawn*
+and *shut down* a teammate, *message* a teammate.
 
 ## I6 — Inputs and outputs, not team structure
 
@@ -100,8 +102,8 @@ points to is never read.
 Counting, parsing, and checking that files exist belong in
 a script, not in instructions: an agent miscounts and
 assumes where a script measures. The script prints only
-what the agent needs, and `SKILL.md` says what to do when
-the script or its interpreter is missing.
+what the agent needs. What happens when the script fails is
+a failure path like any other.
 
 ## I10 — The description triggers correctly
 
@@ -111,22 +113,27 @@ it, in the third person, with the words a request or task
 would contain. It is narrow enough not to fire on unrelated
 tasks and specific enough to fire on the intended ones.
 
-## I11 — Invocation is chosen deliberately
+## I11 — Invocation and context are chosen deliberately
+
+The specification has no fields for these choices, so the
+skill makes them in its text first; a harness field is the
+last resort.
 
 - A skill with side effects, or a long procedure that
-  should start only on request, can be started by the user
-  only.
+  should start only on request, says so in its description
+  and text. Only where that is not enough may it use the
+  harness's field for user-only start, with the reason.
 - A skill that another skill or an agent must call stays
-  invocable by the model — a user-only skill cannot be
+  invocable by the model: a user-only skill cannot be
   called from another skill.
-- Background knowledge that the user never calls directly
-  is hidden from the user's command list.
-- A skill runs in a fresh context when it must judge
-  without the conversation's bias or would flood the
-  conversation with intermediate output; it runs in the
+- A skill that must judge without the conversation's bias,
+  or would flood the conversation with intermediate output,
+  tells the agent to run the work in a fresh subagent,
+  started with the harness's subagent tool, and says what
+  to do when the harness has none. Fresh means it does not
+  inherit the conversation: a fork that carries the
+  conversation along brings the bias back. It runs in the
   conversation when it needs what was said there.
-
-F5 lists the fields that implement these choices.
 
 ## I12 — Nothing dynamic in what loads at session start
 
@@ -135,6 +142,8 @@ agent definitions — stay free of dates, counters, versions,
 and running state: a change there breaks the prompt cache
 for every turn after it. A skill does not write such
 content into them; running state belongs in a file the
-procedure reads when it needs it. A skill body enters the
-conversation as a message, so output injected into it may
-change; keep it under 2,000 characters.
+procedure reads when it needs it. Command output injected
+into a skill body may change from run to run, because the
+body enters the conversation as a message; keep that output
+under 2,000 characters, since it lands in the conversation
+on every invocation.
