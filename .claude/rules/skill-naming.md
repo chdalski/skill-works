@@ -5,8 +5,8 @@ carries the prefix `sw-`. A set's prefix goes on its
 directory under `skill-sets/` and on the `name` in its plugin
 manifest; a skill's prefix goes on its directory and on the
 `name` field in its `SKILL.md` frontmatter. The set
-`skill-sets/sw-skills/` holds `skills/sw-skill-audit/`, which
-Claude Code invokes as `/sw-skills:sw-skill-audit`.
+`skill-sets/sw-workshop/` holds `skills/sw-skill-audit/`, which
+Claude Code invokes as `/sw-workshop:sw-skill-audit`.
 
 ## Why
 

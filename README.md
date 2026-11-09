@@ -41,12 +41,12 @@ In Claude Code:
 
 ```sh
 claude plugin marketplace add chdalski/skill-works
-claude plugin install sw-skills@skill-works --scope project
+claude plugin install sw-workshop@skill-works --scope project
 ```
 
 | Set | Skills |
 |---|---|
-| `sw-skills` | `/sw-skills:sw-skill-audit` — audits a skill for its form, the quality of its instructions, and the coherence of its procedure |
+| `sw-workshop` | `/sw-workshop:sw-skill-audit` — audits a skill for its form, the quality of its instructions, and the coherence of its procedure |
 
 ### Trying a set in pi
 
@@ -68,7 +68,7 @@ Then narrow the package to the sets you want in
   "packages": [
     {
       "source": "git:github.com/chdalski/skill-works",
-      "skills": ["skill-sets/sw-skills/**"]
+      "skills": ["skill-sets/sw-workshop/**"]
     }
   ]
 }

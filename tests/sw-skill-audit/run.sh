@@ -12,14 +12,14 @@ mkdir -p "$here/results"
 objects="${*:-sw-skill-audit ensure-ai-dirs blueprint-audit broken-skill}"
 for object in $objects; do
   if [ "$object" = sw-skill-audit ]; then
-    path=skill-sets/sw-skills/skills/sw-skill-audit
+    path=skill-sets/sw-workshop/skills/sw-skill-audit
   else
     path=tests/sw-skill-audit/fixtures/$object
   fi
   echo "auditing $path"
-  claude -p --model opus --plugin-dir skill-sets/sw-skills \
+  claude -p --model opus --plugin-dir skill-sets/sw-workshop \
     --allowedTools Agent Read Glob Grep "Bash(python3:*)" "Bash(ls:*)" "Bash(find:*)" \
-    -- "/sw-skills:sw-skill-audit $path" \
+    -- "/sw-workshop:sw-skill-audit $path" \
     > "$here/results/$object.md" 2>&1 &
 done
 wait

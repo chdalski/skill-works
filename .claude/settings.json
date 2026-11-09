@@ -8,6 +8,6 @@
     }
   },
   "enabledPlugins": {
-    "sw-skills@skill-works": true
+    "sw-workshop@skill-works": true
   }
 }

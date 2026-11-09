@@ -4,7 +4,7 @@ What a correct audit reports for each test object. Written
 before the audit runs, so a result is compared with an
 expectation instead of explained after the fact. Item IDs
 (F, I, C) refer to the guideline files in
-`skill-sets/sw-skills/skills/sw-skill-audit/references/`.
+`skill-sets/sw-workshop/skills/sw-skill-audit/references/`.
 
 Each object lists:
 
@@ -24,7 +24,7 @@ commit `91a9341`; `broken-skill` was written for these
 tests. A fixture is not a skill made in this repository, so
 no fixture gets a prefix check (O11).
 
-## sw-skill-audit (`skill-sets/sw-skills/skills/sw-skill-audit`)
+## sw-skill-audit (`skill-sets/sw-workshop/skills/sw-skill-audit`)
 
 The audit judges itself by its own guidelines. Skills use the
 fields of the Agent Skills specification; a harness field is
