@@ -51,7 +51,7 @@ claude plugin install sw-skills@skill-works --scope project
 skill-works builds itself. Its first skills are the tools
 for designing and auditing skills. Once they exist, every
 further skill is made and checked with them. This repository
-loads its own sets straight from `sets/`, so a change is
+loads its own sets straight from `skill-sets/`, so a change is
 live in the next session.
 
 ## Status

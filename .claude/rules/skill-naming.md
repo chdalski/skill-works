@@ -2,10 +2,10 @@
 
 Every skill set and every skill made in this repository
 carries the prefix `sw-`. A set's prefix goes on its
-directory under `sets/` and on the `name` in its plugin
+directory under `skill-sets/` and on the `name` in its plugin
 manifest; a skill's prefix goes on its directory and on the
 `name` field in its `SKILL.md` frontmatter. The set
-`sets/sw-skills/` holds `skills/sw-skill-audit/`, which
+`skill-sets/sw-skills/` holds `skills/sw-skill-audit/`, which
 Claude Code invokes as `/sw-skills:sw-skill-audit`.
 
 ## Why

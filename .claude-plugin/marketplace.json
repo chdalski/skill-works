@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "sw-skills",
-      "source": "./sets/sw-skills",
+      "source": "./skill-sets/sw-skills",
       "description": "Design and audit agent skills: form, instruction quality, and the coherence of their procedures."
     }
   ]

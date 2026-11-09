@@ -30,7 +30,7 @@ transitions, gates, and state must fit together.
 | Path | Purpose |
 |---|---|
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin |
-| `sets/sw-skills/` | Set for designing and auditing skills; holds `sw-skill-audit` |
+| `skill-sets/sw-skills/` | Set for designing and auditing skills; holds `sw-skill-audit` |
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
 
@@ -46,11 +46,11 @@ commit message. Chat replies may use the user's language.
 ## Conventions
 
 - Facts about this repository go into this file; how work is done here — rules, settings — goes into `.claude/`
-- This repository uses its own sets: `.claude/settings.json` enables them from the local marketplace, which loads them in place from `sets/`, so an edit takes effect after `/reload-plugins` or in a new session without a reinstall
+- This repository uses its own sets: `.claude/settings.json` enables them from the local marketplace, which loads them in place from `skill-sets/`, so an edit takes effect after `/reload-plugins` or in a new session without a reinstall
 - Every set carries its own `LICENSE` (MIT) and names it in its `plugin.json`: a set is installed without the repository root, and MIT requires the notice in every copy
 - Seeds carry no license notice: what the seed generator writes into a project is MIT-0, so the project can use and change it freely
 - Once a skill for a job exists here, this repository's own work uses it — the first skills are written by hand and then audited with themselves
-- To try a set in a headless run (`claude -p`), load it with `--plugin-dir sets/<set>`: a `-p` run does not load a marketplace that only the project settings declare
+- To try a set in a headless run (`claude -p`), load it with `--plugin-dir skill-sets/<set>`: a `-p` run does not load a marketplace that only the project settings declare
 - CLAUDE.md files and rule files target under 200 lines — agent adherence degrades beyond that threshold
 - CLAUDE.md files, rules, and agent files stay static — no dates, counters, or versions — because they sit in the cached prompt prefix
 
