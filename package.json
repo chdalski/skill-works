@@ -1,0 +1,8 @@
+{
+  "name": "skill-works",
+  "private": true,
+  "license": "MIT",
+  "pi": {
+    "skills": ["./skill-sets/*/skills"]
+  }
+}
