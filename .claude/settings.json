@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "skill-works": {
+      "source": {
+        "source": "directory",
+        "path": "."
+      }
+    }
+  },
+  "enabledPlugins": {
+    "sw-skills@skill-works": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "skill-works",
+  "owner": {
+    "name": "Christoph Dalski"
+  },
+  "description": "Skill sets made with skill-works, each installable as its own plugin.",
+  "plugins": [
+    {
+      "name": "sw-skills",
+      "source": "./sets/sw-skills",
+      "description": "Design and audit agent skills: form, instruction quality, and the coherence of their procedures."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "sw-skills",
+  "description": "Design and audit agent skills: form, instruction quality, and the coherence of their procedures.",
+  "author": {
+    "name": "Christoph Dalski"
+  },
+  "license": "MIT"
+}

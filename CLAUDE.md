@@ -1,56 +1,38 @@
 # skill-works
 
 A workshop for agent skills and the setups built from them.
-It does two things:
 
-1. **Design skills.** New skills follow this repository's
-   guidelines and pass its audits: for their form, for the
-   quality of their instructions, and for coherence — a
-   skill's steps, transitions, gates, and state must fit
-   together.
-2. **Assemble seeds.** A seed is a ready-made initial setup
-   for a coding agent (`.claude/`, `.pi/`), composed of
-   skills, agents, rules, and settings. A project copies a
-   seed once. The seed carries the skills it needs to
-   improve itself inside that project, so the project never
-   comes back to this repository for updates.
+## Model
 
-skill-works builds itself: it runs on its own seed, and that
-seed is made and audited with the skills made here.
+- **Skill** — a directory with a `SKILL.md` per the Agent
+  Skills specification. A skill ships only as part of a
+  skill set; it is never delivered alone.
+- **Skill set** — skills that do one job together, with
+  their personas and resources. One skill text serves every
+  harness; each harness gets its own manifest and thin
+  adapters. A set ships as a plugin of the harness,
+  installed per project from this repository, and is
+  improved only here. Sets never refer to each other.
+- **Seed** — the setup a skill-works skill generates for one
+  project: rules and working methods that link sets,
+  settings, and the activation of the set plugins. It holds
+  no skills. A project gets its seed once, as it is, and
+  improves it in place with a bundled maintenance set;
+  nothing flows back to this repository.
+
+New skills follow this repository's guidelines and pass its
+audits: for their form, for the quality of their
+instructions, and for coherence — a skill's steps,
+transitions, gates, and state must fit together.
 
 ## Components
 
 | Path | Purpose |
 |---|---|
-| `.claude/` | Symlink to `seeds/skill-works/.claude/` — this repository runs on its own seed |
-| `skills/` | Skill library — the single source of every skill |
-| `seeds/` | Seeds assembled from the library |
-| `seeds/skill-works/` | The seed this repository runs on |
-
-## Skill Naming
-
-Every skill made in this repository carries the prefix `sw-`,
-on its directory and on the `name` field in its `SKILL.md`
-frontmatter: `skills/sw-implement/` with `name: sw-implement`,
-invoked as `/sw-implement`. A seed copies these skills into a
-target project, where they sit next to the project's own
-skills, skills from plugins, and the commands built into the
-harness; the prefix keeps the names apart and shows which
-skills came with the seed.
-
-- Prefix every new skill, including the ones this repository
-  uses itself.
-- A skill taken over from elsewhere gets the prefix when it
-  moves here, and every reference to it changes with it — an
-  unchanged reference points to a name that no longer exists.
-- Prefix the directory and `name` together: the Agent Skills
-  specification requires `name` to match the directory name.
-- The prefix counts toward the 64-character limit for `name`.
-- Refer to other skills by their full prefixed name.
-
-This section lives here, not in a rule under `.claude/`,
-because `.claude/` is the seed: a project that uses the seed
-to make its own skills names them its own way.
+| `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin |
+| `sets/sw-skills/` | Set for designing and auditing skills; holds `sw-skill-audit` |
+| `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
+| `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
 
 ## Language
 
@@ -63,16 +45,22 @@ commit message. Chat replies may use the user's language.
 
 ## Conventions
 
-- Skills carry the prefix `sw-` (see Skill Naming)
-- What applies only to this repository goes into this file, never into `.claude/` — everything under `.claude/` ships with the seed
+- Facts about this repository go into this file; how work is done here — rules, settings — goes into `.claude/`
+- This repository uses its own sets: `.claude/settings.json` enables them from the local marketplace, which loads them in place from `sets/`, so an edit takes effect after `/reload-plugins` or in a new session without a reinstall
+- Every set carries its own `LICENSE` (MIT) and names it in its `plugin.json`: a set is installed without the repository root, and MIT requires the notice in every copy
+- Seeds carry no license notice: what the seed generator writes into a project is MIT-0, so the project can use and change it freely
 - Once a skill for a job exists here, this repository's own work uses it — the first skills are written by hand and then audited with themselves
-- A seed links its skills to the library instead of copying them, so an edit made through `.claude/` lands in the library; copying a seed into a project resolves the links
-- Copying a seed takes only the files Git tracks — Claude Code writes local files such as `settings.local.json` into `.claude/`, and through the symlink they land in the seed directory
-- A seed is self-contained: nothing in it refers back to this repository, and nothing syncs between a project's copy and this repository
+- To try a set in a headless run (`claude -p`), load it with `--plugin-dir sets/<set>`: a `-p` run does not load a marketplace that only the project settings declare
 - CLAUDE.md files and rule files target under 200 lines — agent adherence degrades beyond that threshold
 - CLAUDE.md files, rules, and agent files stay static — no dates, counters, or versions — because they sit in the cached prompt prefix
 
 ## References
 
+- [Agent Skills overview](https://agentskills.io/home) — the open standard; its "For skill creators" pages below describe how to write skills
 - [Agent Skills specification](https://agentskills.io/specification)
+- [Skill creation: best practices](https://agentskills.io/skill-creation/best-practices)
+- [Skill creation: optimizing descriptions](https://agentskills.io/skill-creation/optimizing-descriptions)
+- [Skill creation: evaluating skills](https://agentskills.io/skill-creation/evaluating-skills)
+- [Skill creation: using scripts](https://agentskills.io/skill-creation/using-scripts)
 - [Claude Code documentation](https://code.claude.com/docs)
+- [Claude Code plugins](https://code.claude.com/docs/en/plugins/components)
