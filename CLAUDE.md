@@ -35,6 +35,7 @@ transitions, gates, and state must fit together.
 | `skill-sets/sw-skills/` | Set for designing and auditing skills; holds `sw-skill-audit` |
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
+| `.claude/rules/knowledge-placement.md` | Where knowledge goes: a skill's references, a rule, or this file |
 
 ## Language
 
@@ -47,7 +48,6 @@ commit message. Chat replies may use the user's language.
 
 ## Conventions
 
-- Facts about this repository go into this file; how work is done here — rules, settings — goes into `.claude/`
 - This repository uses its own sets: `.claude/settings.json` enables them from the local marketplace, which loads them in place from `skill-sets/`, so an edit takes effect after `/reload-plugins` or in a new session without a reinstall
 - Seeds target Claude Code only; pi is a test harness that keeps skills independent of Claude Code, not a seed target — pi lacks defaults such as a subagent tool, and a seed that added them could break a user's own setup
 - A new set needs an entry in `marketplace.json` for Claude Code; for pi, `package.json` already covers it through the glob `./skill-sets/*/skills`
