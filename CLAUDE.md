@@ -8,11 +8,12 @@ A workshop for agent skills and the setups built from them.
   Skills specification. A skill ships only as part of a
   skill set; it is never delivered alone.
 - **Skill set** — skills that do one job together, with
-  their personas and resources. One skill text serves every
-  harness; each harness gets its own manifest and thin
-  adapters. A set ships as a plugin of the harness,
-  installed per project from this repository, and is
-  improved only here. Sets never refer to each other.
+  their personas and resources. Its skill text follows the
+  specification, so it does not depend on one harness. A
+  set ships as a Claude Code plugin, installed per project
+  from this repository, and is improved only here. Sets
+  never refer to each other, and skills inside one set may
+  depend on each other.
 - **Seed** — the setup a skill-works skill generates for one
   project: rules and working methods that link sets,
   settings, and the activation of the set plugins. It holds
@@ -30,7 +31,7 @@ transitions, gates, and state must fit together.
 | Path | Purpose |
 |---|---|
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin for Claude Code |
-| `package.json` | pi package manifest: declares the skills of every set; a project picks its sets with a `skills` filter in `.pi/settings.json` |
+| `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set; a project picks its sets with a `skills` filter in `.pi/settings.json` |
 | `skill-sets/sw-skills/` | Set for designing and auditing skills; holds `sw-skill-audit` |
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
@@ -48,6 +49,7 @@ commit message. Chat replies may use the user's language.
 
 - Facts about this repository go into this file; how work is done here — rules, settings — goes into `.claude/`
 - This repository uses its own sets: `.claude/settings.json` enables them from the local marketplace, which loads them in place from `skill-sets/`, so an edit takes effect after `/reload-plugins` or in a new session without a reinstall
+- Seeds target Claude Code only; pi is a test harness that keeps skills independent of Claude Code, not a seed target — pi lacks defaults such as a subagent tool, and a seed that added them could break a user's own setup
 - A new set needs an entry in `marketplace.json` for Claude Code; for pi, `package.json` already covers it through the glob `./skill-sets/*/skills`
 - Every set carries its own `LICENSE` (MIT) and names it in its `plugin.json`: a set is installed without the repository root, and MIT requires the notice in every copy
 - Seeds carry no license notice: what the seed generator writes into a project is MIT-0, so the project can use and change it freely

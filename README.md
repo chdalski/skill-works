@@ -26,12 +26,14 @@ setup:
 
 ## How it fits together
 
-- **Skill set** — skills that do one job together. One
-  skill text serves every coding agent; each agent gets its
-  own plugin manifest. Sets never depend on each other.
-- **Seed** — the `.claude/` (or `.pi/`) a project gets: rules
-  and working methods that link the sets, settings, and the
-  activation of the set plugins. It holds no skills.
+- **Skill set** — skills that do one job together, written
+  to the Agent Skills specification so the text does not
+  depend on one coding agent. Sets never depend on each
+  other.
+- **Seed** — the `.claude/` a project gets: rules and
+  working methods that link the sets, settings, and the
+  activation of the set plugins. It holds no skills. Seeds
+  target Claude Code only.
 
 ## Use a set
 
@@ -45,6 +47,35 @@ claude plugin install sw-skills@skill-works --scope project
 | Set | Skills |
 |---|---|
 | `sw-skills` | `/sw-skills:sw-skill-audit` — audits a skill for its form, the quality of its instructions, and the coherence of its procedure |
+
+### Trying a set in pi
+
+pi is no supported target, but the sets are tested in it to
+keep their skills independent of Claude Code. pi lacks some
+defaults, such as a subagent tool, and its users add those
+in their own way; a set that needs one names it in its
+`compatibility` field. To load a set:
+
+```sh
+pi install git:github.com/chdalski/skill-works --local
+```
+
+Then narrow the package to the sets you want in
+`.pi/settings.json`:
+
+```json
+{
+  "packages": [
+    {
+      "source": "git:github.com/chdalski/skill-works",
+      "skills": ["skill-sets/sw-skills/**"]
+    }
+  ]
+}
+```
+
+pi clones the package into `.pi/git/`; keep that directory
+out of version control.
 
 ## Eat your own dog food
 
