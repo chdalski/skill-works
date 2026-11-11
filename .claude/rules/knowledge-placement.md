@@ -10,6 +10,10 @@ one place, chosen by when it is needed:
 | In every session, whatever the task | A rule in the seed (`.claude/rules/`), kept short |
 | Facts about this repository: purpose, layout, language, references | `CLAUDE.md` |
 
+Auto memory is off in this repository. Knowledge that should
+outlast a session goes into one of these three places, also
+when the user asks to remember something.
+
 ## Why
 
 A rule loads into every session. Detail that only one task

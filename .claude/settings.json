@@ -1,4 +1,5 @@
 {
+  "autoMemoryEnabled": false,
   "extraKnownMarketplaces": {
     "skill-works": {
       "source": {
