@@ -14,6 +14,12 @@ A workshop for agent skills and the setups built from them.
   from this repository, and is improved only here. Sets
   never refer to each other, and skills inside one set may
   depend on each other.
+- **Artifacts** — files a skill hands to the next one. Inside a
+  set, skills work only with temporary files, created through
+  the system's temp facility, or extend a file handed in from
+  outside the set; a skill leaves nothing behind but its result.
+  Files that pass from one set to another are the seed's to
+  define.
 - **Seed** — the setup a skill-works skill generates for one
   project: rules and working methods that link sets,
   settings, and the activation of the set plugins. It holds
