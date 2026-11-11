@@ -70,14 +70,14 @@ until a condition holds. Any other procedure may keep its
 working state in the conversation.
 
 Running state — progress, decisions, open items — lives in
-exactly one place outside the conversation: in a temp
-directory as I16 describes when it only has to survive a
-compaction, in the project or in Git when the procedure
-spans sessions. The skill says how to continue from that
-state after an interruption or a compaction, and in a new
-session if the procedure spans sessions. State kept only in
-the conversation is gone after a compaction, and
-two places holding it disagree sooner or later.
+exactly one place outside the conversation: a temp
+directory as I16 describes, the skill's result, or a file
+handed in from outside the set that the skill extends. The
+skill says how to find that state again and continue from
+it after an interruption or a compaction, and in a new
+session if the procedure spans sessions. State kept
+only in the conversation is gone after a compaction, and two
+places holding it disagree sooner or later.
 
 ## C6 — Handoffs carry what the receiver needs
 
@@ -133,7 +133,9 @@ The skill states what it changes: files, commits, external
 systems. A report-only skill changes no file it did not
 create in this run. An action that cannot be undone —
 deleting a file the skill did not create in this run,
-pushing, sending — waits for the user's confirmation.
+pushing, sending — waits for the user's confirmation. A
+temp directory that I16 has the skill delete counts as
+created in this run.
 
 ## C12 — Done is defined
 

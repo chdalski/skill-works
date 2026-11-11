@@ -77,6 +77,14 @@ that a missing file the set ships is no failure case. Run 12
 found the first wording of that too wide; run 13 confirmed
 the fix and found nothing new.
 
+Step 5c then rewrote I16 and C5 so that skills inside a set
+keep only temporary files. Runs 14 to 18 were follow-up
+passes on that change: run 14 found one `fail` and four
+`warn`, runs 15 to 17 each found one narrower `warn` in the
+same paragraph of I16, and run 18 found nothing new. A
+variant pass tested a simpler wording of that paragraph in a
+copy; it left two `warn`, so the patched wording stayed.
+
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
 
@@ -120,6 +128,12 @@ Must report:
   set there (found in run 1, confirmed by reading)
 - C11 `warn`: step 2 overwrites existing files in the plans
   directory without asking
+- I16 `warn`: step 1 writes `plansDirectory` into
+  `.claude/settings.local.json`, a file the description does
+  not name and nothing hands in. Same step as the C5 `fail`,
+  but a different reason: C5 is about reading the value from
+  one file and writing it to another, I16 about a file left
+  behind outside the result. Both findings stay.
 - A2 `warn`: the shipped `plan-format.md` and
   `plan-review-checklist.md` name `risk-assessment.md`,
   Security Engineer gates, and `no-silent-target-weakening`,

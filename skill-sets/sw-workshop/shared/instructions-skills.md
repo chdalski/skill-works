@@ -93,27 +93,46 @@ options, and a recommendation.
 
 ## I16 — Temporary files have a defined place
 
-A skill that writes files outside its result says where
-they go, by kind, and never as a fixed path such as `/tmp`:
-some systems lack it, and a fixed path ignores a redirected
-`TMPDIR`.
+A skill leaves behind only its result and may extend a file
+handed in from outside its set; every other file it writes
+is temporary. Its result is what its description says it
+produces or changes, including the files in a directory the
+description names. Inside such a directory, a file that
+holds only the skill's working state — progress, a cache, a
+hand-over to the next skill — is not part of the result
+unless the description names that file; a hand-over to the
+next skill of the set never is. A file is handed in when the
+request, the skill's arguments, or the project's
+instructions name its path. A skill in no set counts its own
+directory as its set. Any other file stays behind after the
+flow, even one that Git ignores: nothing removes it when the
+set is removed, and a later run may read it as current.
 
-- Scratch files for one run go into a new directory from
-  the system's temp facility (`mktemp -d`; in Python
+The skill says where its temporary files go, by kind, and
+never as a fixed path such as `/tmp`: some systems lack it,
+and a fixed path ignores a redirected `TMPDIR`.
+
+- Scratch files for one run go into a new directory from the
+  system's temp facility (`mktemp -d`; in Python
   `tempfile.mkdtemp()`) or into the scratch directory the
   harness names. The skill deletes the directory when the
   run ends.
-- State that must survive a compaction goes into such a
-  directory with a fixed prefix and a random rest
-  (`mktemp -d -t <skill>.XXXXXX`), and a file in it names
-  what the state belongs to. The skill says how to find it
-  again: list the directories with that prefix and take the
-  one whose file names the current target. The random rest
-  keeps anyone from creating the directory in advance.
-- What must outlast the session is not temporary: it lives
-  in the project, in a place the skill names.
+- Temporary files that hold state that must survive a
+  compaction or a new session, and a file handed to the next
+  skill of the set, go into a new directory from the
+  system's temp facility with a fixed prefix and a random
+  rest (`mktemp -d -t <skill>.XXXXXX`), not into the
+  harness's scratch directory, which a new session does not
+  see. A file in it names what the state belongs to. The
+  skill says how to find it again — list the directories
+  with that prefix and take the one whose file names the
+  current target — and what it does when it finds none or
+  more than one. The random rest keeps anyone from creating
+  the directory in advance. A skill that hands the directory
+  on names the skill that receives it; a skill that hands it
+  to no one deletes it when it is done.
 
 None of these goes into the skill directory: an update
 replaces it, and an audit reads the file as part of the
-skill. Scratch files stay out of the project tree, where
-they show up as changes and can be committed by mistake.
+skill. None goes into the project tree either, where it
+shows up as a change and can be committed by mistake.
