@@ -16,7 +16,7 @@ still run.
 Standard library only. The frontmatter parser covers the YAML subset skill
 frontmatter uses: plain, quoted and block scalars, flow maps and lists, and
 one level of nested mappings and lists. It also flags plain values that a
-full YAML parser rejects.
+full YAML parser rejects or cuts short at a comment.
 """
 
 import os
@@ -82,6 +82,25 @@ def parse_flow(value, top_key, line):
     return mapping
 
 
+def is_single_flow(value):
+    """True if the value, without a trailing comment, is exactly one flow list or map."""
+    value = re.sub(r"\s+#.*$", "", value)
+    depth, quote = 0, None
+    for index, char in enumerate(value):
+        if quote:
+            if char == quote:
+                quote = None
+        elif char in "'\"":
+            quote = char
+        elif char in "[{":
+            depth += 1
+        elif char in "]}":
+            depth -= 1
+            if depth == 0:
+                return index == len(value) - 1
+    return False
+
+
 def frontmatter_end(lines):
     if not lines or lines[0].strip() != "---":
         return None
@@ -127,8 +146,18 @@ def parse_frontmatter(lines):
                         paragraphs.append(" ".join(current))
                         current = []
                 data[key] = "\n".join(paragraphs)
-        elif rest[:1] in ("{", "[") and rest[-1:] in ("}", "]"):
-            data[key] = parse_flow(rest, key, key_lines[key])
+        elif rest[:1] in ("{", "[") and is_single_flow(rest):
+            data[key] = parse_flow(re.sub(r"\s+#.*$", "", rest), key, key_lines[key])
+        elif rest[:1] in ("{", "[", "}", "]", ","):
+            report("fail", "F1", "SKILL.md",
+                   f"the plain value of {key!r} starts with {rest[0]!r} but is not one complete flow list or map, "
+                   "which YAML parsers reject; quote the value", key_lines[key])
+            data[key] = rest
+        elif re.match(r"^[-?](\s|$)", rest):
+            report("fail", "F1", "SKILL.md",
+                   f"the value of {key!r} starts with {rest[0]!r} and a space, which YAML reads as a list entry "
+                   "or a complex key, so parsers reject it; quote the value", key_lines[key])
+            data[key] = rest
         elif rest[:1] == "#":
             report("fail", "F1", "SKILL.md",
                    f"the value of {key!r} starts with '#', which YAML reads as a comment, so the value is empty; "
@@ -148,6 +177,12 @@ def parse_frontmatter(lines):
                                f"the plain value of {key!r} contains ': ' or starts with a YAML indicator, "
                                "which YAML parsers reject; quote the value or use a block scalar (>)",
                                key_lines[key])
+                        break
+                for text in [rest] + continuation:
+                    if re.search(r"\s#", text):
+                        report("warn", "F1", "SKILL.md",
+                               f"the plain value of {key!r} contains ' #', and YAML drops the rest of that line "
+                               "as a comment; quote the value or use a block scalar (>)", key_lines[key])
                         break
             data[key] = " ".join([unquote(rest)] + continuation)
         elif all(b.strip().startswith("- ") or not b.strip() for b in block):

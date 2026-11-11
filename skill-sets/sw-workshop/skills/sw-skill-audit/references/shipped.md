@@ -1,4 +1,4 @@
-# Shipped Content
+# Shipped Content and Data
 
 Files a skill carries but does not follow itself. They get a
 short check of their own, not the instruction and coherence
@@ -13,14 +13,19 @@ uses it:
   It is part of the skill's instructions and gets every
   instruction and coherence item.
 - **Script** — code the agent runs. What `SKILL.md` says
-  about it — what it prints and what happens when it fails —
-  is checked with the rest of the instructions; the code
-  itself gets none of the items here.
+  about it — how to call it, what it prints, and what
+  happens when it fails — is checked with the rest of the
+  instructions, against the script's documented usage and
+  output;
+  the code itself gets none of the items here.
 - **Shipped content** — the skill copies or writes it into a
   project: a template, a format guide, a checklist other
   agents read there.
 - **Data** — a script or the agent reads it as data: a
   lookup table, a schema, a reference copy to compare with.
+- **Other** — neither the agent nor a script uses it: a
+  license, a README, an image for human readers. F7 covers
+  it; no further item applies.
 
 `references/` usually holds references and `assets/` shipped
 content or data, but the use decides, not the directory.

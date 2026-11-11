@@ -8,9 +8,15 @@ compatibility: Needs a harness that can start a subagent; without one it stops. 
 
 Audit one skill and report where it falls short of the
 guidelines in this skill's `references/`. Report only: never
-change a file of the audited skill, and delete any scratch
-file you create. The requester decides what to fix; an
-audit that fixes would end up checking its own fixes.
+change a file of the audited skill. The requester decides
+what to fix; an audit that fixes would end up checking its
+own fixes. Keep any scratch file outside the audited skill
+and the project: inside the skill it would be audited with
+it, inside the project it would show up as a change. Put it
+in a new directory from the system's temp facility
+(`mktemp -d`; in Python `tempfile.mkdtemp()`) or in the
+scratch directory your harness names, and delete it before
+you write the report, which must be your last message.
 
 Below, `<audit-dir>` is the directory of this file: in
 Claude Code `${CLAUDE_SKILL_DIR}`; in another harness, or if
@@ -24,17 +30,27 @@ holds `SKILL.md`), optionally followed by `--prefix
 <prefix>`. If no path appears here, take the path and the
 option from the request that started the audit.
 
+The project is the directory the request names as the
+project, else the working directory. Its instructions are
+the instruction files its harness loads: in Claude Code its
+`CLAUDE.md` files and `.claude/rules/`, elsewhere for
+example `AGENTS.md`. Its skill directories are the ones its
+instructions name for its skills, and in Claude Code also
+`.claude/skills/`.
+
 - Without a path, or when the path holds no `SKILL.md`,
-  report that and stop. Do not pick a skill yourself.
-- Check a name prefix only for a skill made in the project
-  the audit runs in: one under the project's own skill
-  directories (`.claude/skills/`, or the directories the
-  project's instructions name for its skills). Take the
-  prefix from `--prefix`, else from the project's
-  instructions: `CLAUDE.md` and the project's rule files (in
-  Claude Code, `.claude/rules/`). A skill from elsewhere — a
-  fixture, a third-party skill under review — gets no prefix
-  check.
+  report that and stop. Do not pick a skill yourself. A
+  skill name counts as a path only when exactly one
+  directory of that name with a `SKILL.md` lies under the
+  project's skill directories.
+- Only the audit subagent decides on a name prefix; the
+  agent that starts it passes on a `--prefix` it was given
+  and nothing else. Check a prefix only for a skill that
+  lies under the project's skill directories, wherever it
+  came from. A skill outside them — a fixture, a third-party
+  skill reviewed where it lies — gets no prefix check. Take
+  the prefix from `--prefix`, else from the project's
+  instructions.
 
 ## Fresh Context
 
@@ -51,10 +67,11 @@ came about.
   the Agent tool with a fresh agent type such as
   `general-purpose`, never a fork, which would carry the
   conversation along. Give it the absolute path of this
-  file, the absolute path of the skill directory, and the
-  prefix or that there is none; tell it that it is the audit
-  subagent and follows this whole file except this section;
-  relay its report unchanged.
+  file, the absolute paths of the skill directory and the
+  project, and `--prefix <prefix>` if the request named
+  one; tell it that it is the audit subagent and follows
+  this whole file except this section; relay its report
+  unchanged.
 - If your harness has no subagent tool, or the subagent
   returns no complete report, say so and stop. Do not run
   the audit in this conversation instead: an audit in the
@@ -94,10 +111,15 @@ still contradict itself.
    checked` as unchanged.
 4. **Sort and read the skill.** Read
    `<audit-dir>/references/shipped.md` and sort every file
-   of the skill into references, scripts, shipped content,
-   and data as it describes. Read `SKILL.md` and every
+   of the skill into the kinds it describes. Read `SKILL.md` and every
    reference: a step in `SKILL.md` may be defined in a
-   reference, and a contradiction often spans two files.
+   reference, and a contradiction often spans two files. Of
+   each script, read the part that tells how to call it and
+   what it prints — its docstring, header comment, or
+   argument parsing — without running it, since a script
+   may change files or call other systems and the audit
+   only reports: steps 5 and 6 compare what `SKILL.md`
+   says about the script with it.
 5. **Audit the instructions.** Read
    `<audit-dir>/references/instructions.md` and check
    `SKILL.md` and the references against each item.
@@ -105,8 +127,8 @@ still contradict itself.
    `<audit-dir>/references/coherence.md`, build the
    procedure model it describes, and check the items as it
    directs.
-7. **Audit the shipped content.** Check shipped content
-   against A1–A3 and data against A1 in
+7. **Audit the shipped content and data.** Check shipped
+   content against A1–A3 and data against A1 in
    `<audit-dir>/references/shipped.md`, and both against
    nothing else.
 8. **Report** in the format below. The audit ends with the
@@ -163,7 +185,11 @@ finding, grouped by part:
   breaking.
 - `info` — worth knowing, not wrong.
 
-End with up to five of the most important fixes, ranked. A
-clean audit — no `fail`, no `warn` — shows the header, the
-procedure model, any `info` entries, and one line that says
-it is clean; it has no ranked fixes.
+End with up to five of the most important `fail` and `warn`
+fixes: `fail` before `warn`, and within one severity first
+the fix that removes the most findings. A clean audit — no
+`fail`, no `warn` — shows the header, the specification
+diff and its note if step 3 printed `changed`, the
+procedure model if the skill has a procedure, any `info`
+entries, and one line that says it is clean; it has no
+ranked fixes.

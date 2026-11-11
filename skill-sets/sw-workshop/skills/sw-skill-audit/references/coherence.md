@@ -63,8 +63,11 @@ something else.
 ## C5 — State lives in one place and survives
 
 This applies to a procedure that spans more than one session
-or must survive a compaction. A single pass that ends with
-its output may keep its working state in the conversation.
+or must survive a compaction. It must survive one when
+nothing bounds its length: it waits for the user between
+steps, repeats steps for each file, task, or round, or runs
+until a condition holds. Any other procedure may keep its
+working state in the conversation.
 
 Running state — progress, decisions, open items — lives in
 exactly one place that outlasts the session: a file, Git.
@@ -103,9 +106,10 @@ skill to audit.
 
 After a compaction Claude Code keeps only the first 5,000
 tokens of an invoked skill. The steps, the gates, and where
-the state lives stand at the top of `SKILL.md`; a long
-procedure reads each phase's file again at the start of the
-phase instead of relying on what was read before.
+the state lives stand at the top of `SKILL.md`; a procedure
+that must survive a compaction (C5) reads each phase's file
+again at the start of the phase instead of relying on what
+was read before.
 
 ## C10 — Every reference resolves
 
@@ -118,9 +122,10 @@ part of the form check.
 ## C11 — Effects are stated
 
 The skill states what it changes: files, commits, external
-systems. A report-only skill makes no edits. An action that
-cannot be undone — deleting, pushing, sending — waits for
-the user's confirmation.
+systems. A report-only skill changes no file it did not
+create in this run. An action that cannot be undone —
+deleting a file the skill did not create in this run,
+pushing, sending — waits for the user's confirmation.
 
 ## C12 — Done is defined
 

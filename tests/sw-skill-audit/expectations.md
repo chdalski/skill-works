@@ -21,8 +21,8 @@ item gives a different reason; each such finding counts.
 Fixtures under `fixtures/` are frozen copies. `ensure-ai-dirs`
 and `blueprint-audit` come from claude_orchestration at
 commit `91a9341`; `broken-skill` was written for these
-tests. A fixture is not a skill made in this repository, so
-no fixture gets a prefix check (O11).
+tests. A fixture lies outside the project's skill
+directories, so no fixture gets a prefix check (O11).
 
 ## sw-skill-audit (`skill-sets/sw-workshop/skills/sw-skill-audit`)
 
@@ -33,13 +33,40 @@ reason stated.
 
 Run 1 found its Claude Code fields and real defects in its
 script and procedure; those are fixed. It now asks for a
-fresh subagent in its text instead of setting fields. Run 2
-left 8 `warn`, run 3 left 6 `warn` and 2 `info`; each was
-reviewed with the user and fixed, and by agreement no fourth
-run followed. The next audit of this skill checks the
-result.
+fresh subagent in its text instead of setting fields. Runs 2
+to 6 were full audits and left 8, 6, 3, 1, and 3 `warn`;
+each was reviewed with the user and fixed. Every run found
+a different subset: a full audit does not converge on its
+own, and one of run 6's findings came from a fix made after
+run 5.
 
-Must report: nothing at `fail` or `warn`.
+From run 7 on, the self-test follows a review cycle instead
+of repeated full audits:
+
+1. A full audit is the first pass; runs 1 to 6 were first
+   passes.
+2. Each `fail` and `warn` is fixed, or the user accepts it
+   explicitly. An accepted finding moves to "Must not report"
+   with its reason.
+3. A follow-up pass gets the findings of the previous pass
+   and the diff of the revision. It checks that the revision
+   resolves them and contradicts nothing it leaves
+   unchanged; it does not audit unchanged text again.
+4. Steps 2 and 3 repeat until a follow-up pass reports no
+   `fail` and no `warn`. `info` findings alone start no pass.
+5. At the end, the user sees the `info` findings of the last
+   pass, together with any finding that is disputed or whose
+   fix needs a trade-off. What the user takes is applied and
+   gets a follow-up pass on its diff; the rest is dropped.
+
+Runs 7 to 9 were follow-up passes. Run 7 found one run 6
+`warn` only partly fixed, one new `warn`, and two `info`, all
+from the run 6 fixes; run 8 found no `fail` or `warn` and two
+`info`, which the user took; run 9 confirmed both fixes and
+found nothing new.
+
+Must report: nothing at `fail` or `warn` in the last
+follow-up pass, apart from accepted findings.
 
 Must not report:
 - F5 — it uses no harness field

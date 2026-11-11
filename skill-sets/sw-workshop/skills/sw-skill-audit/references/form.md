@@ -15,12 +15,24 @@ subdirectories are `scripts/` (code the agent runs),
 do), and `assets/` (templates and data).
 
 The frontmatter must parse as YAML. A plain, unquoted value
-that contains `: ` or starts with a YAML indicator such as
-`*`, `&`, `!`, `%`, `@` or a backtick breaks the parse, and
-the harness then cannot load the skill; such a value is
-quoted or written as a block scalar (`>`). A quote that
-never closes breaks it too, and a value that starts with `#`
-is read as a comment, which leaves the field empty.
+breaks the parse, and the harness then cannot load the
+skill, when it:
+
+- contains `: `;
+- starts with a YAML indicator such as `*`, `&`, `!`, `%`,
+  `@` or a backtick;
+- starts with `[` or `{` but is not one complete flow list
+  or map, as in `[Beta] Checks …`, or starts with `]`, `}`
+  or `,`;
+- starts with `- ` or `? `, which YAML reads as a list entry
+  or a complex key.
+
+A quote that never closes breaks it too, and a value that
+starts with `#` is read as a comment, which leaves the field
+empty. ` #` inside a plain value starts a comment as well:
+`Triages issue #42 reports.` loads as `Triages issue` (a
+`warn`). Such values are quoted or written as a block
+scalar (`>`).
 
 ## F2 — `name` *(script)*
 
@@ -30,9 +42,10 @@ is read as a comment, which leaves the field empty.
   its directory, and a mismatch can hide the skill without
   an error.
 - Starts with the prefix the project requires, but only for
-  a skill made in the project the audit runs in. A skill
-  from elsewhere, such as a fixture or a third-party skill
-  under review, gets no prefix check.
+  a skill that lies under the project's own skill
+  directories, wherever it came from. A skill outside them,
+  such as a fixture or a third-party skill reviewed where it
+  lies, gets no prefix check.
 - Free of the words `anthropic` and `claude`: the Claude
   API rejects such names.
 
@@ -55,7 +68,10 @@ The Agent Skills specification defines, besides `name` and
   unquoted number, boolean, or null is not a string, so
   such a value is quoted;
 - `allowed-tools` — a space-separated string of
-  pre-approved tools (experimental).
+  pre-approved tools (experimental); in Claude Code, tools
+  usable without a permission prompt during the invoking
+  turn. As a specification field it needs no stated reason
+  under F5.
 
 ## F5 — Harness fields *(script lists them, judge by reading)*
 
@@ -77,7 +93,6 @@ Claude Code fields:
 | `arguments` | Named arguments for `$name` substitution |
 | `disable-model-invocation` | `true`: only the user can start the skill; the model cannot invoke it, not even from another skill |
 | `user-invocable` | `false`: hidden from the `/` menu; only the model loads it |
-| `allowed-tools` | Tools usable without a permission prompt during the invoking turn |
 | `disallowed-tools` | Tools removed while the skill is active |
 | `model`, `effort` | Model and effort for the invoking turn |
 | `context` | `fork`: runs the skill as a subagent that sees none of the conversation |
