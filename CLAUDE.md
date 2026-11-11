@@ -37,6 +37,7 @@ transitions, gates, and state must fit together.
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |
 | `.claude/rules/knowledge-placement.md` | Where knowledge goes: a skill's references, a rule, or this file |
+| `.claude/rules/asking-the-user.md` | How to ask and explain: collected questions, one per dialog, each with purpose, a concrete example, and what each option means |
 
 ## Language
 
