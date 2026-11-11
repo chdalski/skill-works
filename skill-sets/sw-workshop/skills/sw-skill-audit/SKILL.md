@@ -7,7 +7,8 @@ compatibility: Needs a harness that can start a subagent; without one it stops. 
 # Skill Audit
 
 Audit one skill and report where it falls short of the
-guidelines in this skill's `references/`. Report only: never
+guidelines in this skill's `references/` and in its set's
+`shared/` directory. Report only: never
 change a file of the audited skill. The requester decides
 what to fix; an audit that fixes would end up checking its
 own fixes. Keep any scratch file outside the audited skill
@@ -84,7 +85,10 @@ says nothing about the next: a skill with perfect form can
 still contradict itself.
 
 1. **List the skill.** List every file in the skill
-   directory.
+   directory, and every file outside it that `SKILL.md`
+   names by a path relative to the skill directory, such as
+   a shared file of its set under `../../shared/`. Project
+   files the skill works on are not files of the skill.
 2. **Run the form check.** Run
    `python3 <audit-dir>/scripts/check_form.py <skill-dir> [--prefix <prefix>]`.
    It ran if its output ends with a `summary:` line,
@@ -121,8 +125,10 @@ still contradict itself.
    only reports: steps 5 and 6 compare what `SKILL.md`
    says about the script with it.
 5. **Audit the instructions.** Read
-   `<audit-dir>/references/instructions.md` and check
-   `SKILL.md` and the references against each item.
+   `<audit-dir>/../../shared/instructions.md` and
+   `<audit-dir>/../../shared/instructions-skills.md`, and
+   check `SKILL.md` and the references against each item of
+   both.
 6. **Audit the coherence.** Read
    `<audit-dir>/references/coherence.md`, build the
    procedure model it describes, and check the items as it

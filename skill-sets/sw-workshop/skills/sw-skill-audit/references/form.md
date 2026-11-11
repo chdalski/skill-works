@@ -112,19 +112,24 @@ of an invoked skill.
 ## F7 — File references *(script, partly by reading)*
 
 The script follows Markdown links, paths under `scripts/`,
-`references/`, and `assets/`, and project paths that run
-through the skill's own directory. A file named only by its
-bare name, such as `plan-format.md` at the skill root, is
-checked by reading.
+`references/`, `assets/`, and `../../shared/`, in links and
+in plain text alike, and project paths that run through the
+skill's own directory. A file named only by its bare name,
+such as `plan-format.md` at the skill root, is checked by
+reading.
 
 - Paths are relative to the skill directory;
   `${CLAUDE_SKILL_DIR}/` in front also works in Claude
   Code. A skill does not name its own files through a
   project path such as `.claude/skills/<name>/…`: installed
   at user level or in a plugin, it would point to nothing.
+- A skill in a skill set reads the files its set shares
+  through `../../shared/<file>`. A set ships as a whole, so
+  the path holds wherever the set is installed. Such a file
+  belongs to every skill that names it.
 - Every referenced file exists.
 - References stay one level deep: `SKILL.md` points to a
   file, and that file does not send the reader on to a
-  further document.
+  further document. This holds for shared files too.
 - Every file in the skill directory is named in `SKILL.md`;
   a file no line names is never read (`warn`).

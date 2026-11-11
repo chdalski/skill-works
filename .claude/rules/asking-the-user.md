@@ -18,8 +18,8 @@ had to ask what they were about.
   1. what is to decide and why it comes up;
   2. one concrete example from the user's own project — a
      file, a run, a value they know — and what each option
-     makes of it, before and after; in `AskUserQuestion`,
-     put it in the option's `preview`;
+     makes of it, before and after; in Claude Code's
+     `AskUserQuestion`, put it in the option's `preview`;
   3. what each option means for the user, and your
      recommendation with its reason.
 - A question that is clear without an example — a yes or no

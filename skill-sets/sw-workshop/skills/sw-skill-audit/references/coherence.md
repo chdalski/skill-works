@@ -70,10 +70,13 @@ until a condition holds. Any other procedure may keep its
 working state in the conversation.
 
 Running state — progress, decisions, open items — lives in
-exactly one place that outlasts the session: a file, Git.
-The skill says how to continue from that state after an
-interruption, a compaction, or in a new session. State kept
-only in the conversation is gone after a compaction, and
+exactly one place outside the conversation: in a temp
+directory as I16 describes when it only has to survive a
+compaction, in the project or in Git when the procedure
+spans sessions. The skill says how to continue from that
+state after an interruption or a compaction, and in a new
+session if the procedure spans sessions. State kept only in
+the conversation is gone after a compaction, and
 two places holding it disagree sooner or later.
 
 ## C6 — Handoffs carry what the receiver needs
@@ -93,7 +96,12 @@ interpreter is missing, an input is invalid, a check fails,
 the user does not answer — has a defined reaction: retry,
 fall back, stop, or ask. A question that times out is no
 answer, and nothing that belongs to the user is decided in
-its place.
+its place. A file that ships in the skill directory or among
+its set's shared files, and that the skill names by a fixed
+path, is no such case when it is missing: a missing one
+means a broken installation, not a step that failed (F7). A
+bundled script that errors, and a file whose name a step
+builds from an input, still need a reaction.
 
 ## C8 — Inputs are defined
 
@@ -116,8 +124,8 @@ was read before.
 Every skill, tool, section, term, and file outside the
 skill directory that the procedure names exists under that
 name. A rename that missed one reference leaves a step
-pointing to nothing. Whether the skill's own files exist is
-part of the form check.
+pointing to nothing. Whether the skill's own files and its
+set's shared files exist is part of the form check.
 
 ## C11 — Effects are stated
 

@@ -3,8 +3,9 @@
 What a correct audit reports for each test object. Written
 before the audit runs, so a result is compared with an
 expectation instead of explained after the fact. Item IDs
-(F, I, C) refer to the guideline files in
-`skill-sets/sw-workshop/skills/sw-skill-audit/references/`.
+(F, C, A) refer to the guideline files in
+`skill-sets/sw-workshop/skills/sw-skill-audit/references/`,
+and I to those in `skill-sets/sw-workshop/shared/`.
 
 Each object lists:
 
@@ -65,6 +66,17 @@ from the run 6 fixes; run 8 found no `fail` or `warn` and two
 `info`, which the user took; run 9 confirmed both fixes and
 found nothing new.
 
+Step 5b moved the instruction guideline into the set's
+`shared/` and added I13 to I16. Runs 10 to 13 were follow-up
+passes on those changes, with the whole skill checked
+against the new items. Run 10 found five `warn` and one
+`info`. Four `warn` were fixed; the user accepted the I8
+`warn` (below). The `info` said that step 5 has no reaction
+to missing shared files; instead of that fix, C7 now states
+that a missing file the set ships is no failure case. Run 12
+found the first wording of that too wide; run 13 confirmed
+the fix and found nothing new.
+
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
 
@@ -72,7 +84,16 @@ Must not report:
 - F5 — it uses no harness field
 - a missing `sw-` prefix — it carries one
 - I9 — its deterministic checks run in its scripts
+- I15 — it does not ask: without a valid input it reports
+  that and stops
+- I16 — its scratch files go into a new temp directory that
+  it deletes before the report
 - C8 or C12 — input and end are defined
+- I8 for `shared/instructions.md` and
+  `shared/instructions-skills.md` — accepted by the user
+  until `sw-skill-create` names them in step 5c: only this
+  skill reads them so far, and the move was planned for the
+  skills that follow
 
 ## ensure-ai-dirs (`fixtures/ensure-ai-dirs`)
 
@@ -139,6 +160,10 @@ Must report:
   own entry shapes (found in run 1, confirmed by reading)
 - C9 `warn`: the output format sits beyond the first 5,000
   tokens and is lost after a compaction
+- I15 `warn`: step 1 asks which blueprint to audit, but
+  nothing tells the agent how to ask; the fixture belongs to
+  no set, so the fix is a guide for asking or a statement of
+  what the question carries
 
 Must not report:
 - C12 — the report format defines the end

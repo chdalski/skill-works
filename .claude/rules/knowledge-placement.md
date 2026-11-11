@@ -6,7 +6,7 @@ one place, chosen by when it is needed:
 
 | Needed | Place |
 |---|---|
-| Only while a skill does its job | The skill's `references/` in its set; the skills of one set may share them |
+| Only while a skill does its job | The skill's `references/`, or its set's `shared/` when several skills of the set need it |
 | In every session, whatever the task | A rule in the seed (`.claude/rules/`), kept short |
 | Facts about this repository: purpose, layout, language, references | `CLAUDE.md` |
 

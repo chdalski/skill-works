@@ -36,11 +36,13 @@ LISTING_CHAR_LIMIT = 1536
 
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
-# A skill-relative path starts a token: at line start, after a space, quote or
-# bracket, or after ${CLAUDE_SKILL_DIR}/ or a <placeholder>/ such as <audit-dir>/.
-# "docs/references/x.md" is a project path and does not match.
+# A skill-relative path starts a token: at line start, after a space, quote,
+# backtick or bracket, or after ${CLAUDE_SKILL_DIR}/ or a <placeholder>/ such as
+# <audit-dir>/. "docs/references/x.md" is a project path and does not match.
+# ../../shared/<file> is a file the skill's set shares (form.md, F7).
 PATH_RE = re.compile(
-    r"(?<![\w./-])(?:\$\{CLAUDE_SKILL_DIR\}/|<[a-z-]+>/)?((?:scripts|references|assets)/[A-Za-z0-9._/-]+)")
+    r"(?<![\w./-])(?:\$\{CLAUDE_SKILL_DIR\}/|<[a-z-]+>/)?"
+    r"((?:scripts|references|assets|\.\./\.\./shared)/[A-Za-z0-9._/-]+)")
 YAML_INDICATORS = "*&!%@`"
 # Unquoted values a YAML parser turns into a number, boolean or null instead of a string.
 YAML_TYPED_RE = re.compile(
@@ -303,6 +305,23 @@ def check_references(skill_dir, skill_text):
             report("warn", "F7", "SKILL.md",
                    f"names its own file {target!r} through a project path; a path relative to the skill "
                    "directory keeps working wherever the skill is installed", number)
+    # A Markdown file outside the skill directory that SKILL.md names, such as a
+    # shared file of the set, must not send the reader on either.
+    for target in sorted(t for t in from_skill if t.startswith(".." + os.sep) and t.endswith(".md")):
+        if not os.path.isfile(os.path.join(skill_root, target)):
+            continue
+        try:
+            with open(os.path.join(skill_root, target), encoding="utf-8") as handle:
+                content = handle.read()
+        except UnicodeDecodeError:
+            report("warn", "F7", target, "is not UTF-8 text; its references were not checked")
+            continue
+        for ref, number in referenced_paths(content):
+            if not os.path.exists(os.path.join(skill_root, ref)):
+                report("fail", "F7", target, f"references {ref!r}, which does not exist", number)
+            elif ref.endswith(".md"):
+                report("warn", "F7", target,
+                       f"points on to {ref!r}; keep references one level deep from SKILL.md", number)
     for directory, _, files in os.walk(skill_root):
         for file_name in files:
             path = os.path.relpath(os.path.join(directory, file_name), skill_root)

@@ -6,8 +6,12 @@ items: they are written for other readers, later.
 
 ## Which Files These Are
 
-Sort every file in the skill directory by how `SKILL.md`
-uses it:
+Sort every file of the skill by how `SKILL.md` uses it:
+the files in the skill directory, and the files outside it
+that `SKILL.md` names by a path relative to the skill
+directory, such as its set's shared files under
+`../../shared/`. Project files the skill works on are not
+files of the skill.
 
 - **Reference** — the agent reads it to decide what to do.
   It is part of the skill's instructions and gets every
