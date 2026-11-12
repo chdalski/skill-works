@@ -52,3 +52,8 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D46 | [Targets in the harness's terms](D46-targets-in-harness-terms.md) | accepted |
 | D47 | [One glossary](D47-one-glossary.md) | accepted |
 | D48 | [Tested phrases for common actions](D48-tested-phrases-for-common-actions.md) | accepted |
+| D49 | [Every step says when it is done](D49-every-step-says-when-it-is-done.md) | accepted |
+| D50 | [The glossary lists words to avoid](D50-glossary-avoid-lists.md) | accepted |
+| D51 | [Look up facts, ask for decisions](D51-facts-before-questions.md) | accepted |
+| D52 | [Rules for a skill's description](D52-description-rules.md) | accepted |
+| D53 | [Branch test, and one home for each concept](D53-branch-test-and-one-home.md) | accepted |

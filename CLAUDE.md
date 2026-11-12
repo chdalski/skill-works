@@ -19,12 +19,6 @@ A workshop for agent skills and the setups built from them.
   improves it in place with a bundled maintenance set;
   nothing flows back to this repository.
 
-Every other term, and how this repository uses it, is in
-`docs/glossary.md`; a new term goes there before it appears
-in a skill or a rule. Decisions, with their reasons, are in
-`docs/decisions/`; a new one gets a file there before skills
-or rules rely on it.
-
 The rules every set and every skill follows — layout,
 input and output, temporary files, hand-overs — are in
 `skill-sets/CLAUDE.md`. New skills follow them and this
@@ -33,14 +27,22 @@ form, for the quality of their instructions, and for
 coherence — a skill's steps, transitions, gates, and state
 must fit together.
 
+## Docs
+
+Agents working here read and keep these files:
+
+| File | Read it | Change it |
+|---|---|---|
+| `docs/glossary.md` | before you name a concept in a skill, rule, or doc: use its term, never a word from its Avoid column | when a new concept appears, before a skill or rule uses it |
+| `docs/decisions/` | before you change how sets, skills, or the workshop work: a decision may rule the change out | when the user decides something new or changes a decision: a new file with the next number, or a new status on the old one |
+| `skill-sets/CLAUDE.md` | before you create or change a set or a skill | when a decision changes a rule for sets or skills |
+
 ## Components
 
 | Path | Purpose |
 |---|---|
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin for Claude Code |
 | `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set |
-| `docs/glossary.md` | The terms this repository uses and what each one means |
-| `docs/decisions/` | The decisions that shape skill-works, one file each, with status and reasons |
 | `skill-sets/CLAUDE.md` | Rules for every set and every skill: layout, input and output, temporary files, hand-overs |
 | `skill-sets/sw-workshop/` | Workshop set: the tools this repository builds skills and seeds with; holds `sw-skill-audit` so far, and in `shared/` the files its skills share: the instruction guidelines and the guide for asking |
 | `tests/pi.md` | How to load, run, and update a set in pi when testing it there |

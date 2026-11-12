@@ -8,6 +8,10 @@ had to ask what they were about.
 
 ## Questions
 
+- Look up what you can find yourself — in the code, the
+  files, the docs — before you ask. Ask the user only for
+  what they decide or what only they know: intent,
+  preferences, limits.
 - Collect the questions a task raises and ask them once your
   research is done, not one by one as they come up. Open
   with how many there are and one line on each.

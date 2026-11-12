@@ -128,17 +128,14 @@ a new session. The skill's design shows the choice in the
 
 ### Writing a skill
 
-- Use the fields of the Agent Skills specification. A field
-  of one harness only where the skill cannot work without it,
-  with the reason in the text or in `compatibility`.
-- Keep the core procedure — steps, gates, where state lives —
-  in the first 5,000 tokens of `SKILL.md`: after a compaction
-  Claude Code keeps only that much of an invoked skill.
-- A skill that asks the user reads `../../shared/asking.md`
-  at the step where it asks.
-- A skill that needs a judgment free of the conversation's
-  bias runs it in a fresh agent of its set, never in a fork
-  of the conversation.
+Every skill is written with the skills of the workshop set
+and checked against its guideline: the instruction items in
+`sw-workshop/shared/` (`instructions.md`,
+`instructions-skills.md`) and the form, coherence, and
+shipped-content items of `sw-skill-audit`. What the guideline
+says applies here; this file does not repeat it, so the two
+cannot drift apart. The guideline ships with the workshop and
+also governs the skills it makes in other projects.
 
 ## Hand-over
 
