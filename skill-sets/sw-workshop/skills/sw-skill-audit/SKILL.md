@@ -1,14 +1,14 @@
 ---
 name: sw-skill-audit
-description: Audits an agent skill for its form, the quality of its instructions, the coherence of its procedure, and the files it ships, and reports findings with fixes. Use when a skill was created or changed, before a skill is committed, or when asked to audit, check, or review a skill. Reports only; it does not edit the skill.
+description: Audits an agent skill for its form, the quality of its instructions, the coherence of its procedure, and the files it ships, and reports findings with fixes. Use when a skill was created or changed, before a skill is committed, or when asked to audit a skill. Reports only; it does not edit the skill.
 compatibility: Needs a harness that can start a subagent; without one it stops. Uses Python 3 for its bundled scripts and network access to agentskills.io for the specification check; without them it checks by reading and says what it could not check.
 ---
 
 # Skill Audit
 
 Audit one skill and report where it falls short of the
-guidelines in this skill's `references/` and in its set's
-`shared/` directory. Report only: never
+guidelines in this skill's `references/` and in the
+`shared/` directory of the plugin it ships in. Report only: never
 change a file of the audited skill. The requester decides
 what to fix; an audit that fixes would end up checking its
 own fixes. Keep any scratch file outside the audited skill
@@ -37,7 +37,10 @@ the instruction files its harness loads: in Claude Code its
 `CLAUDE.md` files and `.claude/rules/`, elsewhere for
 example `AGENTS.md`. Its skill directories are the ones its
 instructions name for its skills, and in Claude Code also
-`.claude/skills/`.
+`.claude/skills/`. Its glossary is the file its instructions
+name as one, if any; I5 checks the skill against it. If
+that file is missing, say so in the report header and check
+I5 without it.
 
 - Without a path, or when the path holds no `SKILL.md`,
   report that and stop. Do not pick a skill yourself. A
@@ -87,7 +90,9 @@ still contradict itself.
 1. **List the skill.** List every file in the skill
    directory, and every file outside it that `SKILL.md`
    names by a path relative to the skill directory, such as
-   a shared file of its set under `../../shared/`. Project
+   a shared file of its plugin under `../../shared/`. An
+   agent definition under `../../agents/` is not a file of
+   the skill (F7). Project
    files the skill works on are not files of the skill.
 2. **Run the form check.** Run
    `python3 <audit-dir>/scripts/check_form.py <skill-dir> [--prefix <prefix>]`.
@@ -98,7 +103,11 @@ still contradict itself.
    record that in the report header. After a run, read
    `<audit-dir>/references/form.md`, judge the parts marked
    "by reading", and check by reading whatever the script
-   reports as skipped.
+   reports as skipped. Done when every item of `form.md`
+   this step checks by reading — every item if the script
+   did not run — and every check the script reports as
+   skipped, has a finding, holds, or has a reason it does not
+   apply.
 3. **Run the specification check.** Run
    `python3 <audit-dir>/scripts/check_spec.py`. It compares
    the live specification with
@@ -123,20 +132,26 @@ still contradict itself.
    argument parsing — without running it, since a script
    may change files or call other systems and the audit
    only reports: steps 5 and 6 compare what `SKILL.md`
-   says about the script with it.
+   says about the script with it. Done when every file of
+   step 1 has a kind, and `SKILL.md`, every reference, and
+   the usage part of every script have been read.
 5. **Audit the instructions.** Read
    `<audit-dir>/../../shared/instructions.md` and
    `<audit-dir>/../../shared/instructions-skills.md`, and
    check `SKILL.md` and the references against each item of
-   both.
+   both. Done when every item has a finding, holds, or has a
+   reason it does not apply.
 6. **Audit the coherence.** Read
    `<audit-dir>/references/coherence.md`, build the
    procedure model it describes, and check the items as it
-   directs.
+   directs. Done when the model has a row for every step and
+   every item has a finding, holds, or has a reason it does
+   not apply.
 7. **Audit the shipped content and data.** Check shipped
    content against A1–A3 and data against A1 in
    `<audit-dir>/references/shipped.md`, and both against
-   nothing else.
+   nothing else. Done when every file of these two kinds has
+   been checked, or step 4 found none.
 8. **Report** in the format below. The audit ends with the
    report.
 
@@ -146,9 +161,9 @@ one entry, and give each `fail` and `warn` a fix. Keep its
 item ID and grade it by the severity definitions below; the
 script's severity is a proposal.
 
-One defect can fall short of several items. Report it under
-each item that gives a different reason for it; where two
-items would give the same reason, report it once.
+One cause can fall short of several items. Report a finding
+under each item that gives a different reason for it; where
+two items would give the same reason, report it once.
 
 Before you report a finding, find the line that shows it
 and cite it. For something missing, cite the line where it
@@ -168,6 +183,7 @@ SKILL AUDIT: <name>  (<path>)
 Specification  <unchanged | changed | not checked: reason>
 Prefix         <the prefix checked | none: reason>
 Form check     <script | by reading: reason>
+Glossary       <path | none | missing: path>
 Form           [N fail, N warn]
 Instructions   [N fail, N warn]
 Coherence      [N fail, N warn]

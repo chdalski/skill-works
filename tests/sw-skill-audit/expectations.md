@@ -19,6 +19,10 @@ Each object lists:
 One cause can yield findings under several items when each
 item gives a different reason; each such finding counts.
 
+Items added after run 18 — I17, I18, the new rules of I8 and
+I10, and the glossary clause of I5 — have no expectations for
+the fixtures yet; they get them before the next fixture run.
+
 Fixtures under `fixtures/` are frozen copies. `ensure-ai-dirs`
 and `blueprint-audit` come from claude_orchestration at
 commit `91a9341`; `broken-skill` was written for these
@@ -84,6 +88,19 @@ passes on that change: run 14 found one `fail` and four
 same paragraph of I16, and run 18 found nothing new. A
 variant pass tested a simpler wording of that paragraph in a
 copy; it left two `warn`, so the patched wording stayed.
+
+Decisions D49–D53 then changed the guideline: new items I17
+(words the reader knows) and I18 (every step says when it is
+done), a glossary clause in I5, description rules in I10, the
+branch test and one home in I8, one home each for C5 and
+I16, and "plugin" for "set" throughout, so the guideline no
+longer uses words of this repository. Runs 19 to 22 were
+follow-up passes on that change, with the whole skill checked
+against the new and changed items: 16, then 5, then 1
+findings at `fail` or `warn`; run 22 found nothing new. One
+`info` is deferred: the shared instruction file points to C5
+and F6, which only this skill has; it matters once a second
+skill reads that file.
 
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
@@ -176,8 +193,8 @@ Must report:
   tokens and is lost after a compaction
 - I15 `warn`: step 1 asks which blueprint to audit, but
   nothing tells the agent how to ask; the fixture belongs to
-  no set, so the fix is a guide for asking or a statement of
-  what the question carries
+  no plugin, so the fix is a guide for asking or a statement
+  of what the question carries
 
 Must not report:
 - C12 — the report format defines the end

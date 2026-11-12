@@ -40,7 +40,7 @@ a jump to a step that does not exist ("continue with step
 
 ## C2 — Every path ends
 
-Each exit leads to a step, a stop, or a defined handover.
+Each exit leads to a step, a stop, or a defined hand-over.
 A loop names its end condition and what happens when a
 limit is reached before the condition holds — "repeat until
 the review passes" without a limit can run forever.
@@ -70,20 +70,19 @@ until a condition holds. Any other procedure may keep its
 working state in the conversation.
 
 Running state — progress, decisions, open items — lives in
-exactly one place outside the conversation: a temp
-directory as I16 describes, the skill's result, or a file
-handed in from outside the set that the skill extends. The
-skill says how to find that state again and continue from
-it after an interruption or a compaction, and in a new
-session if the procedure spans sessions. State kept
-only in the conversation is gone after a compaction, and two
-places holding it disagree sooner or later.
+exactly one place outside the conversation, one that I16
+allows, and the skill says how to continue from it after an
+interruption or a compaction, and in a new session if the
+procedure spans sessions. Where that place is and how the
+skill finds it again is I16. State kept only in the
+conversation is gone after a compaction, and two places
+holding it disagree sooner or later.
 
-## C6 — Handoffs carry what the receiver needs
+## C6 — Hand-overs carry what the receiver needs
 
-For every handoff — to a subagent, a script, the user, the
+For every hand-over — to a subagent, a script, the user, the
 next skill — name what the receiver must know and check
-that the handoff carries it. A subagent sees none of the
+that the hand-over carries it. A subagent sees none of the
 conversation; what it needs is in its prompt or in files it
 is told to read. Each guarantee the procedure makes has one
 owner: when two steps both "make sure" of the same thing,
@@ -97,7 +96,7 @@ the user does not answer — has a defined reaction: retry,
 fall back, stop, or ask. A question that times out is no
 answer, and nothing that belongs to the user is decided in
 its place. A file that ships in the skill directory or among
-its set's shared files, and that the skill names by a fixed
+its plugin's shared files, and that the skill names by a fixed
 path, is no such case when it is missing: a missing one
 means a broken installation, not a step that failed (F7). A
 bundled script that errors, and a file whose name a step
@@ -125,7 +124,7 @@ Every skill, tool, section, term, and file outside the
 skill directory that the procedure names exists under that
 name. A rename that missed one reference leaves a step
 pointing to nothing. Whether the skill's own files and its
-set's shared files exist is part of the form check.
+plugin's shared files exist is part of the form check.
 
 ## C11 — Effects are stated
 

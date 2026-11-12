@@ -39,10 +39,11 @@ LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 # A skill-relative path starts a token: at line start, after a space, quote,
 # backtick or bracket, or after ${CLAUDE_SKILL_DIR}/ or a <placeholder>/ such as
 # <audit-dir>/. "docs/references/x.md" is a project path and does not match.
-# ../../shared/<file> is a file the skill's set shares (form.md, F7).
+# ../../shared/<file> is a file the skill's plugin shares, ../../agents/<file> the
+# definition of one of its plugin's agents (form.md, F7).
 PATH_RE = re.compile(
     r"(?<![\w./-])(?:\$\{CLAUDE_SKILL_DIR\}/|<[a-z-]+>/)?"
-    r"((?:scripts|references|assets|\.\./\.\./shared)/[A-Za-z0-9._/-]+)")
+    r"((?:scripts|references|assets|\.\./\.\./shared|\.\./\.\./agents)/[A-Za-z0-9._/-]+)")
 YAML_INDICATORS = "*&!%@`"
 # Unquoted values a YAML parser turns into a number, boolean or null instead of a string.
 YAML_TYPED_RE = re.compile(
@@ -306,8 +307,11 @@ def check_references(skill_dir, skill_text):
                    f"names its own file {target!r} through a project path; a path relative to the skill "
                    "directory keeps working wherever the skill is installed", number)
     # A Markdown file outside the skill directory that SKILL.md names, such as a
-    # shared file of the set, must not send the reader on either.
-    for target in sorted(t for t in from_skill if t.startswith(".." + os.sep) and t.endswith(".md")):
+    # shared file of the plugin, must not send the reader on either. An agent
+    # definition under ../../agents/ is read by the agent, not by the skill (F7).
+    agents_prefix = os.path.join("..", "..", "agents") + os.sep
+    for target in sorted(t for t in from_skill
+                         if t.startswith(".." + os.sep) and not t.startswith(agents_prefix) and t.endswith(".md")):
         if not os.path.isfile(os.path.join(skill_root, target)):
             continue
         try:
@@ -319,7 +323,7 @@ def check_references(skill_dir, skill_text):
         for ref, number in referenced_paths(content):
             if not os.path.exists(os.path.join(skill_root, ref)):
                 report("fail", "F7", target, f"references {ref!r}, which does not exist", number)
-            elif ref.endswith(".md"):
+            elif ref.endswith(".md") and not os.path.normpath(ref).startswith(agents_prefix):
                 report("warn", "F7", target,
                        f"points on to {ref!r}; keep references one level deep from SKILL.md", number)
     for directory, _, files in os.walk(skill_root):
@@ -341,7 +345,8 @@ def check_references(skill_dir, skill_text):
                         if not (os.path.exists(os.path.join(skill_root, resolved))
                                 or os.path.exists(os.path.join(skill_root, sibling))):
                             report("fail", "F7", path, f"references {target!r}, which does not exist", number)
-                        elif sibling.endswith(".md") and sibling != path:
+                        elif (sibling.endswith(".md") and sibling != path
+                              and not sibling.startswith(agents_prefix)):
                             report("warn", "F7", path,
                                    f"points on to {target!r}; keep references one level deep from SKILL.md",
                                    number)

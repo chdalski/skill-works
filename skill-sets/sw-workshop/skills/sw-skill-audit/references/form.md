@@ -41,11 +41,8 @@ scalar (`>`).
 - Equal to the directory name. The harness finds a skill by
   its directory, and a mismatch can hide the skill without
   an error.
-- Starts with the prefix the project requires, but only for
-  a skill that lies under the project's own skill
-  directories, wherever it came from. A skill outside them,
-  such as a fixture or a third-party skill reviewed where it
-  lies, gets no prefix check.
+- Starts with the prefix the project requires, where the
+  Input of `<audit-dir>/SKILL.md` calls for a prefix check.
 - Free of the words `anthropic` and `claude`: the Claude
   API rejects such names.
 
@@ -112,7 +109,7 @@ of an invoked skill.
 ## F7 — File references *(script, partly by reading)*
 
 The script follows Markdown links, paths under `scripts/`,
-`references/`, `assets/`, and `../../shared/`, in links and
+`references/`, `assets/`, `../../shared/`, and `../../agents/`, in links and
 in plain text alike, and project paths that run through the
 skill's own directory. A file named only by its bare name,
 such as `plan-format.md` at the skill root, is checked by
@@ -123,10 +120,14 @@ reading.
   Code. A skill does not name its own files through a
   project path such as `.claude/skills/<name>/…`: installed
   at user level or in a plugin, it would point to nothing.
-- A skill in a skill set reads the files its set shares
-  through `../../shared/<file>`. A set ships as a whole, so
-  the path holds wherever the set is installed. Such a file
-  belongs to every skill that names it.
+- A skill in a plugin reads the files its plugin shares
+  through `../../shared/<file>`, and names the definition of
+  one of its plugin's agents through `../../agents/<file>`.
+  A plugin ships as a whole, so these paths hold wherever it
+  is installed. A shared file belongs to every skill that
+  names it. An agent definition is read by the agent the
+  skill starts, not by the skill: it must exist, and no other
+  item applies to it.
 - Every referenced file exists.
 - References stay one level deep: `SKILL.md` points to a
   file, and that file does not send the reader on to a

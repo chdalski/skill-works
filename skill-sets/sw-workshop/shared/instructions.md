@@ -70,7 +70,10 @@ it.
 ## I5 — One term per thing
 
 The file uses one term for each action, role, and artifact.
-An agent that reads two terms assumes two mechanisms. A file
+An agent that reads two terms assumes two mechanisms. Where
+the project's instructions name a glossary, the file names
+each thing the glossary defines by its term, never by a word
+the glossary lists to avoid for that thing. A file
 written for one harness uses that harness's terms; in Claude
 Code: *launch* a subagent (the Agent tool without a name),
 *spawn* and *shut down* a teammate, *message* a teammate.
@@ -90,3 +93,14 @@ and running state: a change there breaks the prompt cache
 for every turn after it. Instructions do not tell the agent
 to write such content into them; running state belongs in a
 file the procedure reads when it needs it.
+
+## I18 — Every step says when it is done
+
+Each step of a procedure ends with a condition the agent can
+check: a file exists, a list is complete, a command printed a
+given line, the user answered. "Done when each topic has an
+answer in `brief.md`, or the user said it does not apply" is
+such a condition; "when it looks complete" is not. A vague
+end lets the agent stop early, and the next step builds on a
+gap. A step whose end is its single action, such as "write
+file X", needs no separate condition.

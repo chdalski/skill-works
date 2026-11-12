@@ -31,7 +31,7 @@ appears in a skill or a rule.
 | chain link | A skill with its own input and result that passes its work on to the next skill through a hand-over; the caller has ended. | stage, step skill |
 | sub-skill | A skill with its own input and result that another skill calls inside its own flow and that returns to the caller. It can also be started alone. | child skill, nested skill, helper skill |
 | phase | A part of a skill without its own input or result, kept in that skill's `references/` and read at the start of the phase. | stage, sub-step |
-| hand-over | Passing work from one skill to the next: the receiving skill gets the path of the flow directory. | handoff, hand-off |
+| hand-over | Passing work to a receiver: the next skill, a subagent, a script, or the user. Between skills, the receiving skill gets the path of the flow directory. | handoff, hand-off |
 | hand-over template | The shape of a file one skill writes and another reads, in `shared/templates/`; both skills name it. | format file, schema |
 | run mode | How far a flow runs on its own between the skills of a set, chosen per run: **step by step** (each skill ends and names the next command) or **straight through** (each skill starts the next). | preset, autonomy level |
 | gate | A point where the user decides before the flow goes on. The workshop's gates: **readiness gate** (the user confirms the hypothesis), **release gate** (the user releases the brief), **acceptance** (the user accepts the draft), and the decisions at the end of a review cycle. | checkpoint, approval step |
@@ -66,7 +66,7 @@ appears in a skill or a rule.
 | audit | One check of a skill against the guideline by a fresh agent; reports only. | review, for one check |
 | auditor | The agent that runs an audit (`sw-skill-auditor`). | reviewer, checker |
 | advisor | The agent that checks an idea or a draft before any skill text exists (`sw-draft-advisor`). | consultant, critic |
-| finding | One shortfall an audit or advisor reports, graded **fail** (the skill does not load or its procedure goes wrong), **warn** (it departs from a guideline without breaking), or **info** (worth knowing). | issue, problem, defect |
+| finding | One shortfall an audit or advisor reports, graded **fail** (the skill does not load or its procedure goes wrong), **warn** (it departs from a guideline without breaking), or **info** (worth knowing). | problem, defect |
 | accepted finding | A finding the user decided to leave as it is, with the reason; not reported again in the same review cycle. | waived finding, exception |
 | review cycle | A full audit, fixes, and follow-up passes until a pass reports no fail and no warn, then the user's decisions. | review loop |
 | follow-up pass | An audit of the diff since the previous pass: it checks that the fixes resolve the previous findings and contradict nothing unchanged. | re-review, re-audit, second pass |

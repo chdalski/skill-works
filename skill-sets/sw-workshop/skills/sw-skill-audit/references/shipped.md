@@ -6,12 +6,8 @@ items: they are written for other readers, later.
 
 ## Which Files These Are
 
-Sort every file of the skill by how `SKILL.md` uses it:
-the files in the skill directory, and the files outside it
-that `SKILL.md` names by a path relative to the skill
-directory, such as its set's shared files under
-`../../shared/`. Project files the skill works on are not
-files of the skill.
+Sort every file that step 1 of `<audit-dir>/SKILL.md` lists by how
+`SKILL.md` uses it:
 
 - **Reference** — the agent reads it to decide what to do.
   It is part of the skill's instructions and gets every
@@ -47,11 +43,9 @@ are covered by the form and instruction checks instead.
 ## A2 — No hidden dependency (`warn`)
 
 Every file, rule, tool, or role a shipped file names either
-comes with the same skill set or is named as a requirement
-in the skill's `compatibility` field. For a skill that
-belongs to no set, such as a fixture, the set is the skill
-directory itself. A template that refers to a rule outside
-its set works only in a setup that happens to have that
+comes with the same plugin or is named as a requirement in
+the skill's `compatibility` field. A template that refers to a rule outside its plugin
+works only in a setup that happens to have that
 rule, and nothing tells the project it needs it.
 
 ## A3 — No contradiction inside a shipped file (`info`)
