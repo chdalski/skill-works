@@ -5,7 +5,9 @@ A workshop for agent skills and the setups built from them.
 ## Model
 
 - **Skill** — a directory with a `SKILL.md` per the Agent
-  Skills specification, always part of a skill set.
+  Skills specification. Every skill made in this repository
+  is part of a skill set; the workshop can also make single
+  skills elsewhere.
 - **Skill set** — skills that do one job together, with
   their shared files and agents. A set ships as a Claude
   Code plugin, installed per project from this repository,
@@ -16,6 +18,12 @@ A workshop for agent skills and the setups built from them.
   no skills. A project gets its seed once, as it is, and
   improves it in place with a bundled maintenance set;
   nothing flows back to this repository.
+
+Every other term, and how this repository uses it, is in
+`docs/glossary.md`; a new term goes there before it appears
+in a skill or a rule. Decisions, with their reasons, are in
+`docs/decisions/`; a new one gets a file there before skills
+or rules rely on it.
 
 The rules every set and every skill follows — layout,
 input and output, temporary files, hand-overs — are in
@@ -31,6 +39,8 @@ must fit together.
 |---|---|
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin for Claude Code |
 | `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set |
+| `docs/glossary.md` | The terms this repository uses and what each one means |
+| `docs/decisions/` | The decisions that shape skill-works, one file each, with status and reasons |
 | `skill-sets/CLAUDE.md` | Rules for every set and every skill: layout, input and output, temporary files, hand-overs |
 | `skill-sets/sw-workshop/` | Workshop set: the tools this repository builds skills and seeds with; holds `sw-skill-audit` so far, and in `shared/` the files its skills share: the instruction guidelines and the guide for asking |
 | `tests/pi.md` | How to load, run, and update a set in pi when testing it there |
