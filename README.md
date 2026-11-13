@@ -46,7 +46,7 @@ claude plugin install sw-workshop@skill-works --scope project
 
 | Set | Skills |
 |---|---|
-| `sw-workshop` | `/sw-workshop:sw-skill-audit` — audits a skill for its form, the quality of its instructions, and the coherence of its procedure |
+| `sw-workshop` | `/sw-workshop:sw-skill-audit` — audits a skill for its form, the quality of its instructions, and the coherence of its procedure; `/sw-workshop:sw-skill-review` — reviews a skill in a cycle of audits and fixes until you accept it |
 
 ## Eat your own dog food
 

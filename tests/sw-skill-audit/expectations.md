@@ -120,6 +120,33 @@ directory; the user took it. Run 29 checked it: no `fail`, no
 `warn`, one `info` on an unclear pronoun, fixed by naming the
 work document.
 
+Building `sw-skill-review` then gave the audit the options
+`--record` and `--follow-up`, a section on follow-up passes, a
+quoted place for every finding, a definition of a complete
+report, and its own agent, `sw-workshop:sw-skill-auditor`.
+Runs 30 to 32 were follow-up passes on that change: 4 `warn`
+and 4 `info`, then 1 `warn` and 2 `info`, then nothing at
+`fail` or `warn`. The user took every `info` but the size
+notes of F6.
+
+D56 then gave the plugin a workspace in the project
+(`.skill-works/` with `work/` and `temp/`) and rewrote I16 and
+C11 for three kinds of files. The audit keeps its scratch files
+in a new directory of the workspace (`workspace.py new-temp`)
+and names a created `.skill-works.json` in its header. Runs 33
+to 36 were follow-up passes on that change: 1 `fail` and 5
+`warn`, then 1 `fail` and 3 `warn`, then 1 `fail` (C11 left
+behind by an I16 change), then nothing at `fail` or `warn`. The
+user decided on the way that I16's deletion rule covers only a
+skill's own work documents and temporary files. Runs 37 and 38
+checked the `info` findings the user took (one wording for
+deleting a work document early, C11 "deleted or moved", the
+settings file "at the top of the project"); run 37 found that
+the merged wording had narrowed who may delete early, run 38
+confirmed the fix and found nothing new. Run 39 checked the
+last taken `info` (C11 exempts deletions that I16 "has or
+lets" the skill make) and was clean without any finding.
+
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
 
@@ -129,8 +156,8 @@ Must not report:
 - I9 — its deterministic checks run in its scripts
 - I15 — it does not ask: without a valid input it reports
   that and stops
-- I16 — its scratch files go into a new temp directory that
-  it deletes before the report
+- I16 — its scratch files go into `temp/` of the plugin's
+  workspace, which it deletes before the report
 - C8 or C12 — input and end are defined
 - I8 for `shared/instructions.md` and
   `shared/instructions-skills.md` — accepted by the user

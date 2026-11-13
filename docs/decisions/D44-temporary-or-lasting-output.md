@@ -1,5 +1,5 @@
 # D44: Temporary or lasting output
 
-Status: superseded by [D54](D54-files-by-reader.md)
+Status: superseded by [D56](D56-workspace-in-the-project.md)
 
-D54 fixes for every file a set writes whether it is temporary, a work document, a result, or a handed-in file, and where each goes.
+D56 fixes for every file a set writes whether it is a result, a work document, or a temporary file, and where each goes.

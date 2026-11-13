@@ -36,18 +36,18 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D30 | [The guide for asking lives in the set](D30-the-guide-for-asking-lives-in-the-set.md) | accepted |
 | D31 | [Seeds come from draft, advice, and acceptance](D31-seeds-draft-advice-acceptance.md) | accepted |
 | D32 | [The review cycle](D32-the-review-cycle.md) | accepted |
-| D33 | [Temporary files](D33-temporary-files.md) | accepted |
+| D33 | [Temporary files](D33-temporary-files.md) | superseded by [D56](D56-workspace-in-the-project.md) |
 | D34 | [Calibrating `sw-seed-audit`](D34-calibrating-sw-seed-audit.md) | accepted |
 | D35 | [Own skill or phase](D35-own-skill-or-phase.md) | accepted |
 | D36 | [Skills with a procedure start from a draft](D36-skills-start-from-a-draft.md) | accepted |
 | D37 | [Work on a skill is split into chained skills](D37-skill-work-in-chained-skills.md) | accepted |
-| D38 | [Skills in a set leave only their result](D38-skills-leave-only-their-result.md) | superseded by [D54](D54-files-by-reader.md), [D55](D55-no-flow-directory.md) |
+| D38 | [Skills in a set leave only their result](D38-skills-leave-only-their-result.md) | superseded by [D56](D56-workspace-in-the-project.md), [D55](D55-no-flow-directory.md) |
 | D39 | [The audit references move to `shared/`](D39-audit-references-move-to-shared.md) | accepted |
 | D40 | [`sw-skill-brainstorm` comes before `sw-skill-design`](D40-brainstorm-before-design.md) | accepted |
 | D41 | [Run modes](D41-run-modes.md) | accepted |
 | D42 | [Chain link, sub-skill, or phase](D42-chain-link-sub-skill-or-phase.md) | accepted |
 | D43 | [Hand-over templates](D43-hand-over-templates.md) | accepted |
-| D44 | [Temporary or lasting output](D44-temporary-or-lasting-output.md) | superseded by [D54](D54-files-by-reader.md) |
+| D44 | [Temporary or lasting output](D44-temporary-or-lasting-output.md) | superseded by [D56](D56-workspace-in-the-project.md) |
 | D45 | [Where the state lives](D45-where-the-state-lives.md) | accepted |
 | D46 | [Targets in the harness's terms](D46-targets-in-harness-terms.md) | accepted |
 | D47 | [One glossary](D47-one-glossary.md) | accepted |
@@ -57,5 +57,6 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D51 | [Look up facts, ask for decisions](D51-facts-before-questions.md) | accepted |
 | D52 | [Rules for a skill's description](D52-description-rules.md) | accepted |
 | D53 | [Branch test, and one home for each concept](D53-branch-test-and-one-home.md) | accepted |
-| D54 | [Files by who reads them](D54-files-by-reader.md) | accepted |
+| D54 | [Files by who reads them](D54-files-by-reader.md) | superseded by [D56](D56-workspace-in-the-project.md) |
 | D55 | [No flow directory](D55-no-flow-directory.md) | accepted |
+| D56 | [A workspace for the sets in the project](D56-workspace-in-the-project.md) | accepted |

@@ -18,6 +18,8 @@ appears in a skill or a rule.
 | plugin | A package a harness installs; in Claude Code a directory with `.claude-plugin/plugin.json` and `skills/`. Every skill set ships as one; another project knows only plugins, not sets. | extension, package (as a noun for it) |
 | skills directory | A directory the harness loads skills from, such as a project's `.claude/skills/` or the user's `~/.claude/skills/` in Claude Code. | skill folder, skills path |
 | target | Where a skill lives or will live: a skills directory, an existing plugin, or a new plugin. Skill text that other projects run names targets in these words, never as a skill set. | destination, location |
+| installed copy | The copy of a plugin the harness keeps for loading, which an update replaces (in Claude Code under `~/.claude/plugins/`). A plugin loaded in place from a repository is no installed copy. | plugin cache |
+| repository root | The top directory of the repository a file lives in (`git rev-parse --show-toplevel`), else the working directory. | project root |
 | workshop set | The set `sw-workshop`: the skills this repository builds skills and seeds with. |  |
 | maintenance set | A set bundled with a seed, with which a project improves its seed in place. |  |
 | seed generator | The skills of the workshop set that design and generate a seed for a project. |  |
@@ -33,6 +35,7 @@ appears in a skill or a rule.
 | phase | A part of a skill without its own input or result, kept in that skill's `references/` and read at the start of the phase. | stage, sub-step |
 | hand-over | Passing work to a receiver: the next skill, a subagent, a script, or the user. Between skills, the receiving skill gets the path of the work document it works from. | handoff, hand-off |
 | hand-over template | The shape of a file one skill writes and another reads, in `shared/templates/`; both skills name it. | format file, schema |
+| handed-in file | A file outside the workspace that the request, the skill's arguments, the project's instructions, or a seed name. The skill may change or extend it, but not delete or move it unless that is its task and the user confirms. Work documents the skills of a flow hand each other are not handed-in files. |  |
 | run mode | How far a flow runs on its own between the skills of a set, chosen per run: **step by step** (each skill ends and names the next command) or **straight through** (each skill starts the next). | preset, autonomy level |
 | gate | A point where the user decides before the flow goes on. The workshop's gates: **readiness gate** (the user confirms the hypothesis), **release gate** (the user releases the brief), **acceptance** (the user accepts the draft), and the decisions at the end of a review cycle. | checkpoint, approval step |
 
@@ -40,11 +43,13 @@ appears in a skill or a rule.
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| temporary file | A scratch file of one run, or a skill's helper file that must outlive a run but holds no state, such as a snapshot for a diff: files only the skill reads, whose loss costs only work. Work documents and results are never temporary. | flow directory, state directory |
-| work document | A file the user reads, comments on, or accepts during a flow, such as a brief or a draft. It lives in the directory the project's instructions name for work documents, and belongs to the user. | working file, scratch document |
-| state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5): the work document that carries the flow, the result, or a handed-in file; never in a temp directory. |  |
+| temporary file | A file only skills read, such as a scratch file, a diff, or a snapshot. It lives in `temp/` of the workspace, and the skill deletes it as soon as nothing needs it. | flow directory, state directory |
+| work document | A file the user reads, comments on, or accepts while a flow runs, such as a brief, a draft, or a review record. It lives in `work/` of the workspace, and the skill that ends the flow deletes it after the user's acceptance. Any skill of the flow may delete it earlier, once a later work document of the same flow replaces it, or when the user confirms abandoning the flow or replacing the cycle it belongs to, such as a review cycle. | working file, scratch document |
+| workspace | The directory in the project that holds the work documents and temporary files of the sets: `.skill-works/` unless `.skill-works.json` at the top of the project names another, with its own `.gitignore`, `work/` and `temp/`. A skill deletes its own work documents and temporary files only inside it. | work-document directory, artifact directory |
+| open work document | A work document whose header `status` starts with its skill's prefix, such as `review:`. | active document |
+| state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5): the work document that carries the flow, the result, or a handed-in file; never in `temp/`. |  |
 | result | What a skill's description says it produces or changes. | output, for the result |
-| lasting result | A result meant to stay, such as a design document or an ADR, at the place the project's instructions name, else where the user picks. | deliverable; artifact, alone |
+| lasting result | A result meant to stay, such as a finished skill, a design document or an ADR, at the place the project's instructions name, else where the user picks. No skill deletes it. | deliverable; artifact, alone |
 
 ## The workshop's flow
 
@@ -66,11 +71,18 @@ appears in a skill or a rule.
 | audit | One check of a skill against the guideline by a fresh agent; reports only. | review, for one check |
 | auditor | The agent that runs an audit (`sw-skill-auditor`). | reviewer, checker |
 | advisor | The agent that checks an idea or a draft before any skill text exists (`sw-draft-advisor`). | consultant, critic |
-| finding | One shortfall an audit or advisor reports, graded **fail** (the skill does not load or its procedure goes wrong), **warn** (it departs from a guideline without breaking), or **info** (worth knowing). | problem, defect |
+| finding | One shortfall an audit or advisor reports, graded **fail** (the skill does not load, breaks the specification, or its procedure goes wrong), **warn** (it departs from a guideline without breaking), or **info** (worth knowing). | problem, defect |
 | accepted finding | A finding the user decided to leave as it is, with the reason; not reported again in the same review cycle. | waived finding, exception |
 | review cycle | A full audit, fixes, and follow-up passes until a pass leaves no fail and no warn open that the agent agrees with, then the user's decisions on the rest. | review loop |
 | follow-up pass | An audit of the diff since the previous pass, by one auditor: it checks that each fix resolves its finding, checks new or changed text against every item, and reads unchanged text only where the changed text refers to it. | re-review, re-audit, second pass |
 | churn | A new finding that undoing an earlier fix would resolve; it stops the audit loop early and goes to the user. | flip-flop, oscillation |
+| pass | One run of the auditor in a review cycle: the first pass is a full audit, every later one a follow-up pass. | round, for an audit |
+| full audit | An audit of every file of a skill against every item of the guideline. | complete review |
+| audit loop | The part of a review cycle that runs on its own: sort the findings, fix the agreed ones, run a follow-up pass, until no agreed fail or warn is open, churn is named, or the limit is reached. | fix loop |
+| agreed finding | A fail or warn the agent can cite in the text, whose fix changes only text at the cited place and no input, result, gate, step order, file kind or shared file. It is fixed without asking. |  |
+| held finding | A finding kept for the user: disputed (the agent can cite text that refutes it), trade-off (any other fail or warn), or info. | open question |
+| record | The work document of one review cycle, `<skill>-review.md`: its header holds the cycle's state, its sections the passes, sorted findings, accepted findings, decisions and final state. | review log, report |
+| snapshot | A copy of a skill's files as the last pass audited them, kept in `temp/` for the next diff; it holds no state, and losing it only makes the next pass a full audit. |  |
 
 ## Ambiguities
 
@@ -79,6 +91,6 @@ appears in a skill or a rule.
 | draft | The procedure draft of a skill. A design document, as in other projects, is called "design document". |
 | review | `sw-skill-review` runs a review cycle. One check is an audit or a follow-up pass, never "a review". |
 | set | Always a skill set. A configuration value is a "setting". |
-| result, output | The result is what a skill's description names. Anything else a skill writes is a work document, a handed-in file it extends, or a temporary file. |
+| result, output | The result is what a skill's description names, except a work document the skill hands on within its flow, such as a brief. Anything else a skill writes is a work document or a temporary file in the workspace, or a handed-in file it extends. |
 | harness, test bench | A harness runs agents. The tests of a skill are its test bench, never a "test harness". |
 | target | Covers both a new skill and a skill to change. |

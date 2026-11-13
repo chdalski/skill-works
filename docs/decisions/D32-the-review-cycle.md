@@ -22,7 +22,7 @@ Requirements for `sw-skill-review`:
 - The state of the loop is in a file (C5, [D26](D26-sets-carry-their-flow-without-rules.md)), because the cycle runs until a condition holds.
 - The cycle needs only the workshop set ([D13](D13-a-skill-belongs-to-one-set.md)), no seed.
 
-The self-test of `sw-skill-audit` follows the cycle from run 7 on (`tests/sw-skill-audit/expectations.md`). An accepted finding is kept in the record of the review cycle, a work document ([D54](D54-files-by-reader.md)), and applies only to that cycle: a later cycle reports it again, and the user decides again.
+The self-test of `sw-skill-audit` follows the cycle from run 7 on (`tests/sw-skill-audit/expectations.md`). An accepted finding is kept in the record of the review cycle, a work document ([D56](D56-workspace-in-the-project.md)), and applies only to that cycle: a later cycle reports it again, and the user decides again.
 
 ## Reasons
 

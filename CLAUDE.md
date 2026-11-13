@@ -37,8 +37,9 @@ Agents working here read and keep these files:
 | `docs/decisions/` | before you change how sets, skills, or the workshop work: a decision may rule the change out | when the user decides something new or changes a decision: a new file with the next number, or a new status on the old one |
 | `skill-sets/CLAUDE.md` | before you create or change a set or a skill | when a decision changes a rule for sets or skills |
 
-Work documents of the workshop's flows (briefs, drafts) go to
-`docs/drafts/`.
+Work documents of the workshop's flows (briefs, drafts, review
+records) live in the workspace `.skill-works/work/` and are
+not committed (D56).
 
 ## Components
 
@@ -47,7 +48,7 @@ Work documents of the workshop's flows (briefs, drafts) go to
 | `.claude-plugin/marketplace.json` | Marketplace `skill-works`: lists every set as a plugin for Claude Code |
 | `package.json` | pi package manifest, for testing sets in pi: declares the skills of every set |
 | `skill-sets/CLAUDE.md` | Rules for every set and every skill: layout, input and output, temporary files, hand-overs |
-| `skill-sets/sw-workshop/` | Workshop set: the tools this repository builds skills and seeds with; holds `sw-skill-audit` so far, and in `shared/` the files its skills share: the instruction guidelines and the guide for asking |
+| `skill-sets/sw-workshop/` | Workshop set: the tools this repository builds skills and seeds with; holds `sw-skill-audit` and `sw-skill-review` so far, its agent `sw-skill-auditor` in `agents/`, and in `shared/` the files its skills share: the instruction guidelines, the guide for asking, the workshop terms, harness phrases, templates, and the workspace script |
 | `tests/pi.md` | How to load, run, and update a set in pi when testing it there |
 | `.claude/` | This repository's own setup: its rules, and settings that load the sets from this checkout |
 | `.claude/rules/skill-naming.md` | Sets and skills made here carry the prefix `sw-` |

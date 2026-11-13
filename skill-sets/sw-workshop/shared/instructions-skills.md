@@ -119,80 +119,76 @@ plugin, or to state in the skill what each question carries:
 what is to decide, an example, the options, and a
 recommendation.
 
-## I16 — Each file a skill writes has a defined place
+## I16 — Each file a skill writes has a place and an end
 
-Every file a skill writes is one of four kinds. A file whose
-path is handed in is a handed-in file, whoever reads it; if
-the description names it, it is also the result. For any
-other file the test is: does a person read it or want to
-keep it? Then it is the result or a work document, and it
-stays. Does only a skill read it? Then it is temporary.
+Every file a skill creates for its work is one of three kinds,
+and the skill says for each file where it goes and when it is
+deleted:
 
 - **Result**: what the skill's description says it produces
   or changes, including the files in a directory the
   description names. Inside such a directory, a file that
-  holds only the skill's working state, such as progress or
-  a cache, is not part of the result unless the description
-  names that file.
+  holds only working state, such as progress or a cache, is
+  not part of the result unless the description names it. A
+  work document the skill hands on within its flow, such as a
+  brief, stays a work document even when the description
+  names it. A result stays; no skill deletes it.
 - **Work document**: a file the user reads, comments on, or
-  accepts while the skill's flow runs, such as a brief or a
-  draft. A file handed to the next skill of its plugin is a
-  work document when a person reads it. Work documents go
-  into the directory the project's instructions name for
-  them; where they name none, a skill that receives no work
-  document asks once, before it writes its first one, and a
-  skill that receives one takes the directory of that work
-  document.
-- **Handed-in file**: a file whose path the request, the
-  skill's arguments, or the project's instructions name. The
-  skill may extend it.
-- **Temporary file**: every other file.
+  accepts while the skill's flow runs, such as a brief, a
+  draft, or a review record, also one the skills of a plugin
+  hand each other. It must survive a reboot while the flow
+  runs, and it has no use after the user's acceptance: the
+  skill that ends the flow deletes it then. Any skill of the
+  flow may delete it earlier, once a later work document of
+  the same flow replaces it, or when the user confirms
+  abandoning the flow or replacing the cycle it belongs to,
+  such as a review cycle. A flow that is
+  abandoned and never resumed may leave it behind.
+- **Temporary file**: a file only skills read, such as a
+  scratch file, a diff, or a snapshot. The skill deletes it as
+  soon as nothing needs it. Losing it costs only work; the
+  skill says what it does when it is gone.
 
-The skill never deletes its result or a work document: they
-belong to the user. At the end of its flow it names the work
-documents that remain, so the user can keep, commit, or
-delete them. A temporary file left behind stays after the
-run, even one that Git ignores: nothing removes it when the
-plugin is removed, and a later run may read it as current.
+Work documents and temporary files go into a **workspace**: a
+directory inside the project that version control ignores,
+with one place for work documents and one for temporary
+files, which the skill or its plugin names and creates when
+it is missing. A settings file that names the workspace sits
+at the top of the project and is meant to be committed; it is
+no work document or temporary file and stays, and the skill
+tells the user when it creates it. A skill deletes its work
+documents and temporary files only inside its workspace, or,
+without one, in the place it names for them; deleting other
+files, where that is the skill's task, follows C11. A skill whose plugin has no workspace may put the
+scratch files of one run into a new directory from the
+system's temp facility (`mktemp -d`; in Python
+`tempfile.mkdtemp()`) and delete it when the run ends; never
+a fixed path such as `/tmp`, which some systems lack and which
+ignores a redirected `TMPDIR`. Its work documents still need
+a place in the project that survives a reboot, and the skill
+names it; having no workspace is no finding by itself.
 
-The skill says where its temporary files go, by kind, and
-never as a fixed path such as `/tmp`: some systems lack it,
-and a fixed path ignores a redirected `TMPDIR`.
-
-- Scratch files for one run go into a new directory from the
-  system's temp facility (`mktemp -d`; in Python
-  `tempfile.mkdtemp()`) or into the scratch directory the
-  harness names. The skill deletes the directory when the
-  run ends.
-- Helper files that must outlive one run but hold no state,
-  such as a snapshot for a diff, go into a new directory from
-  the system's temp facility with a fixed prefix and a random
-  rest (`mktemp -d -t <skill>.XXXXXX`), not into the
-  harness's scratch directory, which a new session does not
-  see. A file in it names what it belongs to; the skill finds
-  it again by listing the directories with that prefix and
-  taking the one whose file names what the current run works
-  on. The random rest keeps anyone from creating the
-  directory in advance. Losing such a file costs only work: a
-  reboot can empty the temp facility, so the skill says what
-  it does when it finds none or more than one, and deletes
-  the directory when it no longer needs it.
+A **handed-in file** is a file outside the workspace whose
+path the request, the skill's arguments, or the project's
+instructions name. The skill may change or extend
+it, but not delete or move it unless that is its task and the
+user confirms (C11); if the description names it, it is also
+the result.
 
 State that must survive a compaction or a new session (when a
-procedure needs such state is C5) never lives in a temp
-directory, not even as a copy: a reboot can empty it, and a
-copy is a second place that sooner or later disagrees. It
-lives in a work document, the result, or a handed-in file the
-skill extends. Skills of a plugin hand each other these files,
-not a temp directory, and the state of their flow stands in
-the file that is handed on. The skill says how to find its
-state again and what it does when it finds none or more than
-one.
+procedure needs such state is C5) lives in a work document,
+the result, or a handed-in file the skill extends, never in a
+temporary file, not even as a copy: a copy is a second place
+that sooner or later disagrees. Skills of a plugin hand each
+other these files, and the state of their flow stands in the
+file that is handed on. The skill says how to find its state
+again and what it does when it finds none or more than one.
 
-No temporary file goes into the skill directory: an update
-replaces it, and an audit reads the file as part of the
-skill. None goes into the project tree either, where it
-shows up as a change and can be committed by mistake.
+No work document or temporary file goes into a skill
+directory: an update replaces it, and an audit reads the file
+as part of the skill. A file left
+in the project outside an ignored workspace shows up as a
+change and can be committed by mistake.
 
 ## I17 — Words the reader knows
 

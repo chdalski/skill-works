@@ -68,29 +68,35 @@ answer; the set's design records the answer it took.
 
 ### What a set leaves behind
 
-Every file a set writes is one of five kinds; the set's draft
-assigns each of its files to one. The test for one file: does
-a person read it or want to keep it? Then it stays and
-belongs to the user. Does only a skill read it, and does
-losing it cost only work? Then it is temporary.
+Every file a set writes is one of three kinds; the set's draft
+assigns each of its files to one. Work documents and temporary
+files go into the workspace in the project: `.skill-works/`,
+unless `.skill-works.json` at the top of the project names another
+directory. The workspace has its own `.gitignore` (`*`),
+`work/` and `temp/`; the first skill that needs it creates
+what is missing, and one shared script of the set does this
+work.
 
-| Kind | Read by | Where | Removed by |
+| Kind | Read by | Where | Deleted |
 |---|---|---|---|
-| Scratch file of one run | the skill alone | a new temp directory | the skill, when the run ends |
-| Helper file of a skill that outlives a run but holds no state: a snapshot for a diff | the skill alone | a temp directory with a fixed prefix | the skill, when it no longer needs it; if lost, the skill redoes the work |
-| Work document: brief, draft, a report shown at a gate | the user, during the flow | the directory the project's instructions name for work documents; else a skill that receives no work document asks once, and one that receives a work document takes the directory of that work document | the user |
-| Result: the finished skill, an ADR, a seed, a design document | the user, people, other agents | where the project's instructions say; else where the user picks | the user |
-| Handed-in file | whoever handed it in | where it is; the skill extends it | the user |
+| Result: the finished skill, an ADR, a seed, a design document | the user, people, other agents, after the flow | where the project's instructions say; else where the user picks | never by a skill |
+| Work document: brief, draft, review record | the user, while the flow runs | `work/` | by the skill that ends the flow, after the user's acceptance; earlier by any skill of the flow, once a later work document replaces it or the user confirms abandoning the flow |
+| Temporary file: scratch, diff, snapshot | only skills | `temp/` | by the skill, as soon as nothing needs it |
+
+A skill deletes its own work documents and temporary files
+only inside the workspace. A file outside it that the user,
+the project's instructions, or a seed hands to a skill may be
+changed or extended; it is deleted or moved only where that
+is the skill's task and the user confirms. A flow that is
+abandoned without the user's word leaves its files in the
+workspace. Files that pass from one set to another are
+the seed's to define.
 
 There is no shared temp directory for a flow. Skills hand
 each other work documents, and the flow's state — target,
 skill, run mode, status, counters — stands in the header of
 the work document that carries the flow at that point, in
 the shape of its template.
-
-A skill never deletes a work document or a result; at the end
-of a flow it names the work documents that remain. Files that
-pass from one set to another are the seed's to define.
 
 ## The Skill
 
@@ -130,8 +136,8 @@ read at all, only a file of that skill.
 | runs until a condition holds | a file outside the conversation |
 
 Which file holds it follows "What a set leaves behind": a
-work document, the result, or a handed-in file; never a
-temp directory. State kept only in the
+work document in `work/`, the result, or a handed-in file;
+never a file in `temp/`. State kept only in the
 conversation is gone after a compaction. A skill whose state lives in a file says how to
 find it and go on after an interruption, a compaction, or in
 a new session. The skill's design shows the choice in the

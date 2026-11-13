@@ -133,10 +133,11 @@ systems. A report-only skill changes no file it did not
 create in this run. An action that cannot be undone —
 deleting a file the skill did not create in this run,
 pushing, sending — waits for the user's confirmation. A
-result or a work document is never deleted by the skill, even
-one it created in this run (I16). A
-temp directory that I16 has the skill delete counts as
-created in this run.
+result is never deleted by the skill; a handed-in file is
+deleted or moved only where that is the skill's task, after
+the user's confirmation. Work
+documents and temporary files that I16 has or lets the skill
+delete need no confirmation.
 
 ## C12 — Done is defined
 

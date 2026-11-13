@@ -12,7 +12,7 @@ Where the state of a procedure lives is decided for each skill by the criterion 
 
 Any other procedure may keep its state in the conversation.
 
-That file is a work document, the result, or a handed-in file, never a temp directory ([D54](D54-files-by-reader.md), [D55](D55-no-flow-directory.md)): the state of a flow stands in the header of the work document it hands on, and the record of a review cycle holds the state of that cycle.
+That file is a work document in `work/` of the workspace, the result, or a handed-in file, never a file in `temp/` ([D55](D55-no-flow-directory.md), [D56](D56-workspace-in-the-project.md)): the state of a flow stands in the header of the work document it hands on, and the record of a review cycle holds the state of that cycle.
 
 The draft shows the choice in the "Reads / writes" column of the procedure model, and the advisor checks it.
 
