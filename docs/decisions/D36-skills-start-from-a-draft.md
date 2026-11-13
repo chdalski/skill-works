@@ -6,7 +6,7 @@ Status: accepted
 
 A skill with a procedure is made like a seed ([D31](D31-seeds-draft-advice-acceptance.md)).
 
-1. First a draft of the procedure is made as a temporary file ([D38](D38-skills-leave-only-their-result.md)). It holds the steps, inputs, result, acceptances, where the state is kept, and the hand-over to the next skill ([D35](D35-own-skill-or-phase.md)). It has the shape of the procedure model that the audit builds.
+1. First a draft of the procedure is made, as a work document ([D54](D54-files-by-reader.md)) in the project's directory for work documents. It holds the steps, inputs, result, acceptances, where the state is kept, and the hand-over to the next skill ([D35](D35-own-skill-or-phase.md)). It has the shape of the procedure model that the audit builds.
 2. An advisor checks it against C1 to C12.
 3. The user accepts it.
 4. Only then is `SKILL.md` written.

@@ -27,7 +27,7 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D21 | [Scope of step 5](D21-scope-of-step-5.md) | accepted |
 | D22 | [The rules of step 5a come in one commit at the end](D22-step-5a-rules-in-one-commit.md) | accepted |
 | D23 | [Shared files go in `shared/`](D23-shared-files-in-shared.md) | accepted |
-| D24 | [What `sw-skill-create` works on](D24-sw-skill-create-scope.md) | amended by [D46](D46-targets-in-harness-terms.md) |
+| D24 | [What `sw-skill-create` works on](D24-sw-skill-create-scope.md) | accepted |
 | D25 | [The test bench skill](D25-the-test-bench-skill.md) | accepted |
 | D26 | [Sets carry their flow without rules](D26-sets-carry-their-flow-without-rules.md) | accepted |
 | D27 | [Skills use their own agents](D27-skills-use-their-own-agents.md) | accepted |
@@ -36,18 +36,18 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D30 | [The guide for asking lives in the set](D30-the-guide-for-asking-lives-in-the-set.md) | accepted |
 | D31 | [Seeds come from draft, advice, and acceptance](D31-seeds-draft-advice-acceptance.md) | accepted |
 | D32 | [The review cycle](D32-the-review-cycle.md) | accepted |
-| D33 | [Temporary files](D33-temporary-files.md) | amended by D54 |
+| D33 | [Temporary files](D33-temporary-files.md) | accepted |
 | D34 | [Calibrating `sw-seed-audit`](D34-calibrating-sw-seed-audit.md) | accepted |
-| D35 | [Own skill or phase](D35-own-skill-or-phase.md) | amended by [D41](D41-run-modes.md) |
+| D35 | [Own skill or phase](D35-own-skill-or-phase.md) | accepted |
 | D36 | [Skills with a procedure start from a draft](D36-skills-start-from-a-draft.md) | accepted |
-| D37 | [Work on a skill is split into chained skills](D37-skill-work-in-chained-skills.md) | amended by [D40](D40-brainstorm-before-design.md), [D46](D46-targets-in-harness-terms.md) |
-| D38 | [Skills in a set leave only their result](D38-skills-leave-only-their-result.md) | amended by D54 |
+| D37 | [Work on a skill is split into chained skills](D37-skill-work-in-chained-skills.md) | accepted |
+| D38 | [Skills in a set leave only their result](D38-skills-leave-only-their-result.md) | superseded by [D54](D54-files-by-reader.md), [D55](D55-no-flow-directory.md) |
 | D39 | [The audit references move to `shared/`](D39-audit-references-move-to-shared.md) | accepted |
 | D40 | [`sw-skill-brainstorm` comes before `sw-skill-design`](D40-brainstorm-before-design.md) | accepted |
 | D41 | [Run modes](D41-run-modes.md) | accepted |
 | D42 | [Chain link, sub-skill, or phase](D42-chain-link-sub-skill-or-phase.md) | accepted |
 | D43 | [Hand-over templates](D43-hand-over-templates.md) | accepted |
-| D44 | [Temporary or lasting output](D44-temporary-or-lasting-output.md) | amended by D54 |
+| D44 | [Temporary or lasting output](D44-temporary-or-lasting-output.md) | superseded by [D54](D54-files-by-reader.md) |
 | D45 | [Where the state lives](D45-where-the-state-lives.md) | accepted |
 | D46 | [Targets in the harness's terms](D46-targets-in-harness-terms.md) | accepted |
 | D47 | [One glossary](D47-one-glossary.md) | accepted |
@@ -58,3 +58,4 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D52 | [Rules for a skill's description](D52-description-rules.md) | accepted |
 | D53 | [Branch test, and one home for each concept](D53-branch-test-and-one-home.md) | accepted |
 | D54 | [Files by who reads them](D54-files-by-reader.md) | accepted |
+| D55 | [No flow directory](D55-no-flow-directory.md) | accepted |

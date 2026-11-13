@@ -71,16 +71,22 @@ answer; the set's design records the answer it took.
 Every file a set writes is one of five kinds; the set's draft
 assigns each of its files to one. The test for one file: does
 a person read it or want to keep it? Then it stays and
-belongs to the user. Does only a skill read it, and can it be
-rebuilt from the documents? Then it is temporary.
+belongs to the user. Does only a skill read it, and does
+losing it cost only work? Then it is temporary.
 
 | Kind | Read by | Where | Removed by |
 |---|---|---|---|
 | Scratch file of one run | the skill alone | a new temp directory | the skill, when the run ends |
-| Machine state of a flow: status, round counter, snapshots | the skills of the set | a temp directory with a fixed prefix | the skill that ends the flow; after a reboot, rebuilt from the work documents |
-| Work document: brief, draft, a report shown at a gate | the user, during the flow | the directory the project's instructions name for work documents; else the entry skill asks once | the user |
+| Helper file of a skill that outlives a run but holds no state: a snapshot for a diff | the skill alone | a temp directory with a fixed prefix | the skill, when it no longer needs it; if lost, the skill redoes the work |
+| Work document: brief, draft, a report shown at a gate | the user, during the flow | the directory the project's instructions name for work documents; else a skill that receives no work document asks once, and one that receives a work document takes the directory of that work document | the user |
 | Result: the finished skill, an ADR, a seed, a design document | the user, people, other agents | where the project's instructions say; else where the user picks | the user |
 | Handed-in file | whoever handed it in | where it is; the skill extends it | the user |
+
+There is no shared temp directory for a flow. Skills hand
+each other work documents, and the flow's state — target,
+skill, run mode, status, counters — stands in the header of
+the work document that carries the flow at that point, in
+the shape of its template.
 
 A skill never deletes a work document or a result; at the end
 of a flow it names the work documents that remain. Files that
@@ -119,12 +125,14 @@ read at all, only a file of that skill.
 | The procedure | Its state |
 |---|---|
 | runs once and ends with its result | may stay in the conversation |
-| waits for the user between steps | a file in its temp directory |
-| repeats steps for each file, task, or round | a file in its temp directory |
-| runs until a condition holds | a file in its temp directory |
+| waits for the user between steps | a file outside the conversation |
+| repeats steps for each file, task, or round | a file outside the conversation |
+| runs until a condition holds | a file outside the conversation |
 
-State kept only in the conversation is gone after a
-compaction. A skill whose state lives in a file says how to
+Which file holds it follows "What a set leaves behind": a
+work document, the result, or a handed-in file; never a
+temp directory. State kept only in the
+conversation is gone after a compaction. A skill whose state lives in a file says how to
 find it and go on after an interruption, a compaction, or in
 a new session. The skill's design shows the choice in the
 "Reads / writes" column of its procedure table.
@@ -146,11 +154,13 @@ also governs the skills it makes in other projects.
 
 | Level | Decided by | When | Choices |
 |---|---|---|---|
-| Between the skills of a set | the user, for each run; a caller may pass it | at the start, by the entry skill | "step by step": each skill ends and names the next command with the flow directory; "straight through": each skill starts the next |
+| Between the skills of a set | the user, for each run; a caller may pass it | at the start, by the entry skill | "step by step": each skill ends and names the next command with the work document it hands on; "straight through": each skill starts the next |
 | Inside a skill: phases and sub-skills | the skill's design | when the skill is designed | automatic or by hand, for each hand-over |
 
-- The run mode is stored in the flow directory, and
-  every later skill reads it there. The user's gates hold in
+- The run mode is stored in the header of the work document
+  that carries the flow, and every later skill reads it
+  there; a document that does not carry the flow, such as a
+  review record, names the one that does. The user's gates hold in
   both modes; the mode decides only who starts the next
   skill.
 - A skill that some mode starts automatically stays
@@ -160,8 +170,8 @@ also governs the skills it makes in other projects.
   start, with the reason.
 - Whether the model performs a start step is not guaranteed.
   Word it as a step that always runs in its mode, and keep
-  the state in the flow directory, so a stopped chain
-  can be resumed from it.
+  the state in the work document it hands on, so a stopped
+  chain can be resumed from it.
 
 ### Inside a set
 
@@ -169,7 +179,7 @@ also governs the skills it makes in other projects.
   shape comes from the set's template in `shared/templates/`.
 - In run mode "straight through", the last step of a chain
   link starts the next skill of the set, as `<set>:<skill>`,
-  with the path of the flow directory.
+  with the path of the work document it hands on.
 
 ### Checking hand-overs
 

@@ -139,10 +139,10 @@ stays. Does only a skill read it? Then it is temporary.
   draft. A file handed to the next skill of its plugin is a
   work document when a person reads it. Work documents go
   into the directory the project's instructions name for
-  them; where they name none, the skill asks once per flow,
-  before it writes the first one, and keeps the answer with
-  the flow's state, where the next skill of the flow finds
-  it.
+  them; where they name none, a skill that receives no work
+  document asks once, before it writes its first one, and a
+  skill that receives one takes the directory of that work
+  document.
 - **Handed-in file**: a file whose path the request, the
   skill's arguments, or the project's instructions name. The
   skill may extend it.
@@ -164,33 +164,30 @@ and a fixed path ignores a redirected `TMPDIR`.
   `tempfile.mkdtemp()`) or into the scratch directory the
   harness names. The skill deletes the directory when the
   run ends.
-- Machine state of a flow that must survive a compaction or
-  a new session (when a procedure needs such state is C5)
-  goes into a new directory from the system's temp facility
-  with a fixed prefix and a random rest (`mktemp -d -t
-  <skill>.XXXXXX`), not into the harness's scratch
-  directory, which a new session does not see. A file in it
-  names what the state belongs to; the skill finds it again
-  by listing the directories with that prefix and taking the
-  one whose file names what the current run works on. The
-  random rest keeps anyone from creating the directory in
-  advance. A skill that hands the directory on names the
-  skill that receives it; a skill that hands it to no one
-  deletes it when it is done. Keep there only state the
-  skill can rebuild from its work documents, its result, or
-  a handed-in file it extends: a reboot can empty the temp
-  facility. The temp directory then holds a copy; where it
-  disagrees with the files it was rebuilt from, they win.
-  One exception: the answer about the work-document
-  directory may stay there; if it is lost, the skill asks
-  the user again before it reads or writes a work document.
-  State the skill cannot rebuild goes into a work document,
-  the result, or a handed-in file it extends. State may also
-  live only in the result, a work document, or a handed-in
-  file the skill extends; then it needs no temp directory.
-  Wherever the state lives, the skill says how to find it
-  again and what it does when it finds none or more than
-  one.
+- Helper files that must outlive one run but hold no state,
+  such as a snapshot for a diff, go into a new directory from
+  the system's temp facility with a fixed prefix and a random
+  rest (`mktemp -d -t <skill>.XXXXXX`), not into the
+  harness's scratch directory, which a new session does not
+  see. A file in it names what it belongs to; the skill finds
+  it again by listing the directories with that prefix and
+  taking the one whose file names what the current run works
+  on. The random rest keeps anyone from creating the
+  directory in advance. Losing such a file costs only work: a
+  reboot can empty the temp facility, so the skill says what
+  it does when it finds none or more than one, and deletes
+  the directory when it no longer needs it.
+
+State that must survive a compaction or a new session (when a
+procedure needs such state is C5) never lives in a temp
+directory, not even as a copy: a reboot can empty it, and a
+copy is a second place that sooner or later disagrees. It
+lives in a work document, the result, or a handed-in file the
+skill extends. Skills of a plugin hand each other these files,
+not a temp directory, and the state of their flow stands in
+the file that is handed on. The skill says how to find its
+state again and what it does when it finds none or more than
+one.
 
 No temporary file goes into the skill directory: an update
 replaces it, and an audit reads the file as part of the

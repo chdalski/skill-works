@@ -14,7 +14,7 @@ I1 to I12 keep their IDs. Since step 5b:
 
 - I13 and I14 are the skill parts of I5 and I12.
 - I15 is asking the user ([D30](D30-the-guide-for-asking-lives-in-the-set.md)).
-- I16 is temporary files ([D33](D33-temporary-files.md)).
+- I16 is the place of every file a skill writes ([D33](D33-temporary-files.md), [D54](D54-files-by-reader.md)).
 - Seed items follow from I17 on.
 
 The terms of Claude Code are in the shared I5. They apply to every file written for one harness only: to seeds and to such skills. So the list exists only once.

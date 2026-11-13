@@ -31,7 +31,7 @@ appears in a skill or a rule.
 | chain link | A skill with its own input and result that passes its work on to the next skill through a hand-over; the caller has ended. | stage, step skill |
 | sub-skill | A skill with its own input and result that another skill calls inside its own flow and that returns to the caller. It can also be started alone. | child skill, nested skill, helper skill |
 | phase | A part of a skill without its own input or result, kept in that skill's `references/` and read at the start of the phase. | stage, sub-step |
-| hand-over | Passing work to a receiver: the next skill, a subagent, a script, or the user. Between skills, the receiving skill gets the path of the flow directory. | handoff, hand-off |
+| hand-over | Passing work to a receiver: the next skill, a subagent, a script, or the user. Between skills, the receiving skill gets the path of the work document it works from. | handoff, hand-off |
 | hand-over template | The shape of a file one skill writes and another reads, in `shared/templates/`; both skills name it. | format file, schema |
 | run mode | How far a flow runs on its own between the skills of a set, chosen per run: **step by step** (each skill ends and names the next command) or **straight through** (each skill starts the next). | preset, autonomy level |
 | gate | A point where the user decides before the flow goes on. The workshop's gates: **readiness gate** (the user confirms the hypothesis), **release gate** (the user releases the brief), **acceptance** (the user accepts the draft), and the decisions at the end of a review cycle. | checkpoint, approval step |
@@ -40,18 +40,17 @@ appears in a skill or a rule.
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| temporary file | A scratch file of one run, or the machine state of a flow: files only skills read, which can be rebuilt, or, for the answer about the work-document directory, asked again. Work documents and results are never temporary. |  |
-| flow directory | The temp directory, with a fixed prefix, that holds a flow's machine state and moves from skill to skill. The skill that ends the flow deletes it. Never the harness's scratch directory. | state directory |
+| temporary file | A scratch file of one run, or a skill's helper file that must outlive a run but holds no state, such as a snapshot for a diff: files only the skill reads, whose loss costs only work. Work documents and results are never temporary. | flow directory, state directory |
 | work document | A file the user reads, comments on, or accepts during a flow, such as a brief or a draft. It lives in the directory the project's instructions name for work documents, and belongs to the user. | working file, scratch document |
-| state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5). |  |
+| state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5): the work document that carries the flow, the result, or a handed-in file; never in a temp directory. |  |
 | result | What a skill's description says it produces or changes. | output, for the result |
-| lasting result | A result meant to stay, such as a design document, an ADR, or a kept brief, at the place the project's instructions name, else where the user picks. | deliverable; artifact, alone |
+| lasting result | A result meant to stay, such as a design document or an ADR, at the place the project's instructions name, else where the user picks. | deliverable; artifact, alone |
 
 ## The workshop's flow
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| brief | What `sw-skill-brainstorm` hands to `sw-skill-design`; a kept copy is its lasting result. It holds what was clarified, the hypothesis, goals and non-goals, alternatives weighed, decisions, the form of the part, and open objections. | concept brief, summary |
+| brief | What `sw-skill-brainstorm` hands to `sw-skill-design`; a work document. It holds what was clarified, the hypothesis, goals and non-goals, alternatives weighed, decisions, the form of the part, and open objections. | concept brief, summary |
 | hypothesis | Two or three sentences on what a skill does, when it triggers, and what it delivers, confirmed by the user at the readiness gate. |  |
 | draft | The procedure of a skill before any text is written, in the shape of the procedure model; written by `sw-skill-design`, accepted by the user. | plan, spec; design, for the draft |
 | procedure model | The table of a skill's steps with entry, exits, reads and writes, and actor, as `coherence.md` describes it. | flow table, step table |
@@ -69,9 +68,9 @@ appears in a skill or a rule.
 | advisor | The agent that checks an idea or a draft before any skill text exists (`sw-draft-advisor`). | consultant, critic |
 | finding | One shortfall an audit or advisor reports, graded **fail** (the skill does not load or its procedure goes wrong), **warn** (it departs from a guideline without breaking), or **info** (worth knowing). | problem, defect |
 | accepted finding | A finding the user decided to leave as it is, with the reason; not reported again in the same review cycle. | waived finding, exception |
-| review cycle | A full audit, fixes, and follow-up passes until a pass reports no fail and no warn, then the user's decisions. | review loop |
-| follow-up pass | An audit of the diff since the previous pass: it checks that the fixes resolve the previous findings and contradict nothing unchanged. | re-review, re-audit, second pass |
-| churn | A new finding that undoing an earlier fix would resolve; it stops a review cycle early. | flip-flop, oscillation |
+| review cycle | A full audit, fixes, and follow-up passes until a pass leaves no fail and no warn open that the agent agrees with, then the user's decisions on the rest. | review loop |
+| follow-up pass | An audit of the diff since the previous pass, by one auditor: it checks that each fix resolves its finding, checks new or changed text against every item, and reads unchanged text only where the changed text refers to it. | re-review, re-audit, second pass |
+| churn | A new finding that undoing an earlier fix would resolve; it stops the audit loop early and goes to the user. | flip-flop, oscillation |
 
 ## Ambiguities
 

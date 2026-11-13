@@ -109,6 +109,17 @@ follow-up passes on that change: 3, 2, 1, then 0 findings at
 `fail` or `warn`, each a narrower edge of the same paragraph;
 no fix had to be undone.
 
+D55 then removed the flow directory: I16 no longer allows
+state in a temp directory, only helper files that hold no
+state, and C5 lost its sentence about a copy there. Run 27
+was a follow-up pass on that change: 1 `warn` and 2 `info`,
+all in the changed text of I16 and all fixed forward. Run 28
+checked those fixes: no `fail`, no `warn`, one `info` that
+proposes one sentence for the two rules on the work-document
+directory; the user took it. Run 29 checked it: no `fail`, no
+`warn`, one `info` on an unclear pronoun, fixed by naming the
+work document.
+
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
 

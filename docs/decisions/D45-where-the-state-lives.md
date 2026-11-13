@@ -4,13 +4,15 @@ Status: accepted
 
 ## Decision
 
-Where the state of a procedure lives is decided for each skill by the criterion of C5. A procedure needs a file in its temp directory when nothing limits its length:
+Where the state of a procedure lives is decided for each skill by the criterion of C5. A procedure needs a file outside the conversation when nothing limits its length:
 
 - it waits for the user between steps,
 - it repeats steps for each file, task, or round, or
 - it runs until a condition holds.
 
 Any other procedure may keep its state in the conversation.
+
+That file is a work document, the result, or a handed-in file, never a temp directory ([D54](D54-files-by-reader.md), [D55](D55-no-flow-directory.md)): the state of a flow stands in the header of the work document it hands on, and the record of a review cycle holds the state of that cycle.
 
 The draft shows the choice in the "Reads / writes" column of the procedure model, and the advisor checks it.
 
