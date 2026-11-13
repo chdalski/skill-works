@@ -68,21 +68,23 @@ answer; the set's design records the answer it took.
 
 ### What a set leaves behind
 
-Inside a set, skills work only with temporary files, or
-extend a file handed in from outside the set. The set's
-design decides for each output which kind it is:
+Every file a set writes is one of five kinds; the set's draft
+assigns each of its files to one. The test for one file: does
+a person read it or want to keep it? Then it stays and
+belongs to the user. Does only a skill read it, and can it be
+rebuilt from the documents? Then it is temporary.
 
-| Output | Read by | Where | Removed |
+| Kind | Read by | Where | Removed by |
 |---|---|---|---|
-| Scratch file of one run | the skill alone | new temp directory | when the run ends |
-| State and hand-overs inside the set | skills of the set | temp directory with a fixed prefix | by the skill that hands it to no one |
-| Lasting result: a design document, an ADR, a kept brief, a file for another machine | people, a team, other agents | where the project's instructions say, else where the user picks | never: it belongs to the project |
-| Hand-over to another set | another set | defined by the seed | — |
+| Scratch file of one run | the skill alone | a new temp directory | the skill, when the run ends |
+| Machine state of a flow: status, round counter, snapshots | the skills of the set | a temp directory with a fixed prefix | the skill that ends the flow; after a reboot, rebuilt from the work documents |
+| Work document: brief, draft, a report shown at a gate | the user, during the flow | the directory the project's instructions name for work documents; else the entry skill asks once | the user |
+| Result: the finished skill, an ADR, a seed, a design document | the user, people, other agents | where the project's instructions say; else where the user picks | the user |
+| Handed-in file | whoever handed it in | where it is; the skill extends it | the user |
 
-A lasting result is worked out in the temp directory and
-written to its place by a last step of its own; only there
-does it become the skill's result, which its description
-names.
+A skill never deletes a work document or a result; at the end
+of a flow it names the work documents that remain. Files that
+pass from one set to another are the seed's to define.
 
 ## The Skill
 
@@ -107,9 +109,10 @@ read at all, only a file of that skill.
   It checks its input when it starts and stops with a reason,
   or asks, when the input is missing or unfit.
 - Its result is what its description says it produces or
-  changes. Everything else it writes is temporary; where
-  temporary files go is item I16 of the shared guideline
-  (`sw-workshop/shared/instructions-skills.md`).
+  changes. A work document it writes stays as well; every
+  other file is temporary (see "What a set leaves behind").
+  Where temporary files go is item I16 of the shared
+  guideline (`sw-workshop/shared/instructions-skills.md`).
 
 ### Where state lives
 
@@ -143,10 +146,10 @@ also governs the skills it makes in other projects.
 
 | Level | Decided by | When | Choices |
 |---|---|---|---|
-| Between the skills of a set | the user, for each run; a caller may pass it | at the start, by the entry skill | "step by step": each skill ends and names the next command with the hand-over directory; "straight through": each skill starts the next |
+| Between the skills of a set | the user, for each run; a caller may pass it | at the start, by the entry skill | "step by step": each skill ends and names the next command with the flow directory; "straight through": each skill starts the next |
 | Inside a skill: phases and sub-skills | the skill's design | when the skill is designed | automatic or by hand, for each hand-over |
 
-- The run mode is stored in the hand-over directory, and
+- The run mode is stored in the flow directory, and
   every later skill reads it there. The user's gates hold in
   both modes; the mode decides only who starts the next
   skill.
@@ -157,7 +160,7 @@ also governs the skills it makes in other projects.
   start, with the reason.
 - Whether the model performs a start step is not guaranteed.
   Word it as a step that always runs in its mode, and keep
-  the state in the hand-over directory, so a stopped chain
+  the state in the flow directory, so a stopped chain
   can be resumed from it.
 
 ### Inside a set
@@ -166,7 +169,7 @@ also governs the skills it makes in other projects.
   shape comes from the set's template in `shared/templates/`.
 - In run mode "straight through", the last step of a chain
   link starts the next skill of the set, as `<set>:<skill>`,
-  with the path of the hand-over directory.
+  with the path of the flow directory.
 
 ### Checking hand-overs
 

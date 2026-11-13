@@ -37,6 +37,9 @@ Agents working here read and keep these files:
 | `docs/decisions/` | before you change how sets, skills, or the workshop work: a decision may rule the change out | when the user decides something new or changes a decision: a new file with the next number, or a new status on the old one |
 | `skill-sets/CLAUDE.md` | before you create or change a set or a skill | when a decision changes a rule for sets or skills |
 
+Work documents of the workshop's flows (briefs, drafts) go to
+`docs/drafts/`.
+
 ## Components
 
 | Path | Purpose |

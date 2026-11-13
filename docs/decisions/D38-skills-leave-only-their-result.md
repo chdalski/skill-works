@@ -1,6 +1,6 @@
 # D38: Skills in a set leave only their result
 
-Status: accepted
+Status: amended by [D54](D54-files-by-reader.md)
 
 ## Decision
 

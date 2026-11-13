@@ -1,6 +1,6 @@
 # D33: Temporary files
 
-Status: accepted
+Status: amended by [D54](D54-files-by-reader.md)
 
 ## Decision
 

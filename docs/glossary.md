@@ -40,17 +40,18 @@ appears in a skill or a rule.
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| temporary file | Any file a skill writes that is not its result. Scratch files go into a new temp directory and are deleted when the run ends (I16). |  |
-| flow directory | The temp directory, with a fixed prefix, that holds a flow's state and hand-overs and moves from skill to skill. The skill that hands it to no one deletes it. Never the harness's scratch directory. | work directory, state directory |
+| temporary file | A scratch file of one run, or the machine state of a flow: files only skills read, which can be rebuilt. Work documents and results are never temporary. |  |
+| flow directory | The temp directory, with a fixed prefix, that holds a flow's machine state and moves from skill to skill. The skill that ends the flow deletes it. Never the harness's scratch directory. | state directory |
+| work document | A file the user reads, comments on, or accepts during a flow, such as a brief or a draft. It lives in the directory the project's instructions name for work documents, and belongs to the user. | working file, scratch document |
 | state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5). |  |
 | result | What a skill's description says it produces or changes. | output, for the result |
-| lasting result | A result meant to stay, such as a design document, an ADR, or a kept brief. Worked out in the flow directory and written by a last step to the place the project's instructions name, else where the user picks. | deliverable; artifact, alone |
+| lasting result | A result meant to stay, such as a design document, an ADR, or a kept brief, at the place the project's instructions name, else where the user picks. | deliverable; artifact, alone |
 
 ## The workshop's flow
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| brief | The result of `sw-skill-brainstorm`: what was clarified, the hypothesis, goals and non-goals, alternatives weighed, decisions, the form of the part, and open objections. | concept brief, summary |
+| brief | What `sw-skill-brainstorm` hands to `sw-skill-design`; a kept copy is its lasting result. It holds what was clarified, the hypothesis, goals and non-goals, alternatives weighed, decisions, the form of the part, and open objections. | concept brief, summary |
 | hypothesis | Two or three sentences on what a skill does, when it triggers, and what it delivers, confirmed by the user at the readiness gate. |  |
 | draft | The procedure of a skill before any text is written, in the shape of the procedure model; written by `sw-skill-design`, accepted by the user. | plan, spec; design, for the draft |
 | procedure model | The table of a skill's steps with entry, exits, reads and writes, and actor, as `coherence.md` describes it. | flow table, step table |
