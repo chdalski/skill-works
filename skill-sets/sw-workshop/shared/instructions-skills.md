@@ -6,7 +6,10 @@ falls short of it.
 
 Here a plugin is the package a skill ships in, with the other
 skills it ships with and the files they share. A skill outside
-any plugin counts its own directory as its plugin.
+any plugin counts its own directory as its plugin. A flow is
+the work that one or more skills of a plugin do, from the
+first skill that runs, whoever starts it, to the last one
+that hands nothing on.
 
 ## I6 — Inputs and outputs, not team structure
 
@@ -116,20 +119,40 @@ plugin, or to state in the skill what each question carries:
 what is to decide, an example, the options, and a
 recommendation.
 
-## I16 — Temporary files have a defined place
+## I16 — Each file a skill writes has a defined place
 
-A skill leaves behind only its result and may extend a file
-handed in from outside its plugin; every other file it writes
-is temporary. Its result is what its description says it
-produces or changes, including the files in a directory the
-description names. Inside such a directory, a file that
-holds only the skill's working state — progress, a cache, a
-hand-over to the next skill — is not part of the result
-unless the description names that file; a hand-over to the
-next skill of its plugin never is. A file is handed in when the
-request, the skill's arguments, or the project's
-instructions name its path. Any other file stays behind after the
-skill's run, even one that Git ignores: nothing removes it when the
+Every file a skill writes is one of four kinds. A file whose
+path is handed in is a handed-in file, whoever reads it; if
+the description names it, it is also the result. For any
+other file the test is: does a person read it or want to
+keep it? Then it is the result or a work document, and it
+stays. Does only a skill read it? Then it is temporary.
+
+- **Result**: what the skill's description says it produces
+  or changes, including the files in a directory the
+  description names. Inside such a directory, a file that
+  holds only the skill's working state, such as progress or
+  a cache, is not part of the result unless the description
+  names that file.
+- **Work document**: a file the user reads, comments on, or
+  accepts while the skill's flow runs, such as a brief or a
+  draft. A file handed to the next skill of its plugin is a
+  work document when a person reads it. Work documents go
+  into the directory the project's instructions name for
+  them; where they name none, the skill asks once per flow,
+  before it writes the first one, and keeps the answer with
+  the flow's state, where the next skill of the flow finds
+  it.
+- **Handed-in file**: a file whose path the request, the
+  skill's arguments, or the project's instructions name. The
+  skill may extend it.
+- **Temporary file**: every other file.
+
+The skill never deletes its result or a work document: they
+belong to the user. At the end of its flow it names the work
+documents that remain, so the user can keep, commit, or
+delete them. A temporary file left behind stays after the
+run, even one that Git ignores: nothing removes it when the
 plugin is removed, and a later run may read it as current.
 
 The skill says where its temporary files go, by kind, and
@@ -141,12 +164,11 @@ and a fixed path ignores a redirected `TMPDIR`.
   `tempfile.mkdtemp()`) or into the scratch directory the
   harness names. The skill deletes the directory when the
   run ends.
-- Temporary files that hold state that must survive a
-  compaction or a new session (when a procedure needs such
-  state is C5), and a file handed to the next skill of its
-  plugin, go into a new directory from the system's temp
-  facility with a fixed prefix and a random rest (`mktemp -d
-  -t <skill>.XXXXXX`), not into the harness's scratch
+- Machine state of a flow that must survive a compaction or
+  a new session (when a procedure needs such state is C5)
+  goes into a new directory from the system's temp facility
+  with a fixed prefix and a random rest (`mktemp -d -t
+  <skill>.XXXXXX`), not into the harness's scratch
   directory, which a new session does not see. A file in it
   names what the state belongs to; the skill finds it again
   by listing the directories with that prefix and taking the
@@ -154,13 +176,23 @@ and a fixed path ignores a redirected `TMPDIR`.
   random rest keeps anyone from creating the directory in
   advance. A skill that hands the directory on names the
   skill that receives it; a skill that hands it to no one
-  deletes it when it is done. State may also live in the
-  skill's result, or in a handed-in file the skill extends;
-  then it needs no temp directory. Wherever the state lives,
-  the skill says how to find it again and what it does when
-  it finds none or more than one.
+  deletes it when it is done. Keep there only state the
+  skill can rebuild from its work documents, its result, or
+  a handed-in file it extends: a reboot can empty the temp
+  facility. The temp directory then holds a copy; where it
+  disagrees with the files it was rebuilt from, they win.
+  One exception: the answer about the work-document
+  directory may stay there; if it is lost, the skill asks
+  the user again before it reads or writes a work document.
+  State the skill cannot rebuild goes into a work document,
+  the result, or a handed-in file it extends. State may also
+  live only in the result, a work document, or a handed-in
+  file the skill extends; then it needs no temp directory.
+  Wherever the state lives, the skill says how to find it
+  again and what it does when it finds none or more than
+  one.
 
-None of these goes into the skill directory: an update
+No temporary file goes into the skill directory: an update
 replaces it, and an audit reads the file as part of the
 skill. None goes into the project tree either, where it
 shows up as a change and can be committed by mistake.

@@ -74,7 +74,10 @@ exactly one place outside the conversation, one that I16
 allows, and the skill says how to continue from it after an
 interruption or a compaction, and in a new session if the
 procedure spans sessions. Where that place is and how the
-skill finds it again is I16. State kept only in the
+skill finds it again is I16. A copy that I16 has the skill
+keep in a temp directory, and rebuild from that place, is not
+a second place; nor is the answer about the work-document
+directory that I16 lets stay there. State kept only in the
 conversation is gone after a compaction, and two places
 holding it disagree sooner or later.
 
@@ -133,6 +136,8 @@ systems. A report-only skill changes no file it did not
 create in this run. An action that cannot be undone —
 deleting a file the skill did not create in this run,
 pushing, sending — waits for the user's confirmation. A
+result or a work document is never deleted by the skill, even
+one it created in this run (I16). A
 temp directory that I16 has the skill delete counts as
 created in this run.
 

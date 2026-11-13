@@ -102,6 +102,13 @@ findings at `fail` or `warn`; run 22 found nothing new. One
 and F6, which only this skill has; it matters once a second
 skill reads that file.
 
+D54 then sorted every file a skill writes by who reads it,
+and I16 was rewritten for its four kinds: result, work
+document, handed-in file, temporary file. Runs 23 to 26 were
+follow-up passes on that change: 3, 2, 1, then 0 findings at
+`fail` or `warn`, each a narrower edge of the same paragraph;
+no fix had to be undone.
+
 Must report: nothing at `fail` or `warn` in the last
 follow-up pass, apart from accepted findings.
 

@@ -40,7 +40,7 @@ appears in a skill or a rule.
 
 | Term | Meaning | Avoid |
 |---|---|---|
-| temporary file | A scratch file of one run, or the machine state of a flow: files only skills read, which can be rebuilt. Work documents and results are never temporary. |  |
+| temporary file | A scratch file of one run, or the machine state of a flow: files only skills read, which can be rebuilt, or, for the answer about the work-document directory, asked again. Work documents and results are never temporary. |  |
 | flow directory | The temp directory, with a fixed prefix, that holds a flow's machine state and moves from skill to skill. The skill that ends the flow deletes it. Never the harness's scratch directory. | state directory |
 | work document | A file the user reads, comments on, or accepts during a flow, such as a brief or a draft. It lives in the directory the project's instructions name for work documents, and belongs to the user. | working file, scratch document |
 | state | What a procedure needs to go on after an interruption: progress, decisions, open items. Lives in the conversation only when the procedure runs once and ends with its result; otherwise in a file (C5). |  |
@@ -80,6 +80,6 @@ appears in a skill or a rule.
 | draft | The procedure draft of a skill. A design document, as in other projects, is called "design document". |
 | review | `sw-skill-review` runs a review cycle. One check is an audit or a follow-up pass, never "a review". |
 | set | Always a skill set. A configuration value is a "setting". |
-| result, output | The result is what a skill's description names. Anything else a skill writes is a temporary file. |
+| result, output | The result is what a skill's description names. Anything else a skill writes is a work document, a handed-in file it extends, or a temporary file. |
 | harness, test bench | A harness runs agents. The tests of a skill are its test bench, never a "test harness". |
 | target | Covers both a new skill and a skill to change. |
