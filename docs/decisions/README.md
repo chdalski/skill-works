@@ -60,3 +60,4 @@ This folder holds the decisions that shape skill-works: one file for each decisi
 | D54 | [Files by who reads them](D54-files-by-reader.md) | superseded by [D56](D56-workspace-in-the-project.md) |
 | D55 | [No flow directory](D55-no-flow-directory.md) | accepted |
 | D56 | [A workspace for the sets in the project](D56-workspace-in-the-project.md) | accepted |
+| D57 | [A plugin's terms live in the plugin](D57-plugin-terms-in-the-plugin.md) | accepted |

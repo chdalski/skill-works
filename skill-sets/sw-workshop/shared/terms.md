@@ -10,9 +10,15 @@ file at its first step and uses each term as defined here.
 - **target**: where a skill lives or will live: a skills
   directory the harness loads skills from (in Claude Code a
   project's `.claude/skills/` or the user's
-  `~/.claude/skills/`), an existing plugin in the repository,
-  or a new plugin. A skill's path is
-  `<skills directory>/<skill>` or `<plugin>/skills/<skill>`.
+  `~/.claude/skills/`); an existing plugin in the repository,
+  a package the harness installs, with a `skills/` directory
+  (in Claude Code a directory with `.claude-plugin/plugin.json`
+  and `skills/`); or a new plugin, named by the path it will
+  have, which loads only once the project installs it. A
+  skill's path is `<skills directory>/<skill>` or
+  `<plugin>/skills/<skill>`, and a given skill path maps back
+  the same way: when the parent of `skills/` is a plugin, the
+  target is that plugin, else the skills directory.
 - **installed copy**: the copy of a plugin that the harness
   keeps for loading, which an update replaces (in Claude Code
   under `~/.claude/plugins/`). A plugin loaded in place from a
@@ -50,7 +56,8 @@ file at its first step and uses each term as defined here.
   request, the skill's arguments, or the project's
   instructions name. The skill may change or extend it, but
   not delete or move it unless that is its task and the user
-  confirms.
+  confirms. Work documents the skills of a flow hand each
+  other are not handed-in files.
 - **open work document**: a work document whose header
   `status` starts with its skill's prefix, such as `review:`.
 
@@ -69,7 +76,42 @@ file at its first step and uses each term as defined here.
   document that carries the flow holds it in its header.
 - **sub-skill**: a skill with its own input and result that
   another skill starts inside its own work and that returns
-  to that skill.
+  to that skill. It can also be started alone.
+- **phase**: a part of a skill without its own input or
+  result, kept in that skill's `references/` and read when
+  the phase starts.
+- **gate**: a point where the user decides before the flow
+  goes on, such as the readiness gate (the user confirms the
+  hypothesis and the target before any advisor runs) and the
+  release gate (the user releases the brief to the next
+  skill), and acceptance (the user accepts a draft, or the
+  result at the end of a flow).
+
+## Briefs
+
+- **brief**: the work document that sw-skill-brainstorm writes
+  and sw-skill-design works from, in the shape of
+  `shared/templates/brief.md`. Its header holds the flow's
+  state.
+- **hypothesis**: two or three sentences on what a skill
+  does, when it triggers, and what it delivers, confirmed by
+  the user at the readiness gate.
+- **form**: what a brief proposes: a new skill, a sub-skill,
+  or a change of a skill or of a phase of a skill. Not the
+  audit's form check.
+- **advisor**: the agent `sw-draft-advisor`, which argues
+  against a planned skill in a fresh context and reports
+  objections.
+- **contrarian pass**: one check of a brief by the advisor,
+  against the checklist the skill gives it.
+- **round**: one contrarian pass on a brief. The rounds are
+  counted by the brief's Advice entries; a "no contrarian
+  pass" note counts as one.
+- **objection**: one reason against a planned skill, with
+  what it rests on and what would answer it; it has no grade.
+  Objections still
+  open when the user releases a brief are accepted open items
+  for the next skill.
 
 ## Review
 
